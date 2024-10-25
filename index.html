@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DexHub and DART</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            font-weight: 300;
+            color: #2c3e50;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+            text-align: center;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 1.5em;
+        }
+        p {
+            margin-bottom: 1.5em;
+            text-align: justify;
+        }
+        .authors {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 0.5em;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        .authors span {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .paper-info {
+            text-align: center;
+            color: #2980b9;
+            font-size: 1.1em;
+            margin-bottom: 1em;
+            font-weight: 500;
+        }
+        .info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1em;
+        }
+        .conference-info {
+            background-color: #e0f7fa;
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: #01579b;
+            font-size: 0.9em;
+            flex: 0 1 auto;
+        }
+        .conference-info strong {
+            font-weight: bold;
+        }
+        .links {
+            display: flex;
+            gap: 15px;
+            flex: 0 1 auto;
+        }
+        .links a {
+            color: #3498db;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        .links img {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+        .abstract {
+            background-color: #fdfdfd;
+            padding: 3px 20px 20px 20px; /* Reduced top padding */
+            border-radius: 5px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2em;
+        }
+        .content-section {
+            background-color: #fff;
+            padding: 3px 20px 20px 20px; /* Reduced top padding */
+            border-radius: 5px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2em;
+        }
+        .figure {
+            background-color: #e0e0e0;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1em 0;
+            font-size: 1.2em;
+            color: #7f8c8d;
+        }
+        .figure-container {
+          margin: 2em 0;
+          text-align: center;
+        }
+        .figure-container img {
+            max-height: 300px;
+            max-width: 100%;
+            height: auto;
+            /* border: 1px solid #ddd; */
+            /* border-radius: 4px; */
+            /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
+        }
+        .figure-container2 {
+          margin: 2em 0;
+          text-align: center;
+        }
+        .figure-container2 img {
+            max-height: 500px;
+            max-width: 100%;
+            height: auto;
+            /* border: 1px solid #ddd; */
+            /* border-radius: 4px; */
+            /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
+        }
+
+        .figure-caption {
+            margin-top: 0.5em;
+            /* font-style: italic; */
+            color: #666;
+            font-size: 0.9em;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .authors span {
+                display: block;
+                margin: 5px 0;
+            }
+            .info-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .conference-info, .links {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .links {
+                justify-content: center;
+            }
+        }
+        .quote {
+            border-left: 4px solid #ccc; /* Line on the left */
+            padding-left: 16px; /* Indentation */
+            margin-left: 16px;
+            color: #555; /* Text color */
+            font-style: italic; /* Optional: Italicize text */
+        }
+        .custom-link {
+            color: #3498db; /* Custom color for the link */
+            text-decoration: none; /* Remove default underline */
+        }
+
+        .custom-link:hover {
+            color: #2980b9; /* Slightly different color on hover */
+            text-decoration: underline; /* Optional: underline on hover */
+        }
+
+        .acronym-explanation {
+        font-style: italic; /* Italicize text */
+        font-size: 0.9em; /* Slightly smaller font */
+        color: #555; /* A lighter color for the text */
+        text-align: left; /* Align text to the left */
+        margin-top: 0px; /* Add a little spacing above */
+        }
+
+        .video-container {
+            margin: 20px 0;
+        }
+
+        .video-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .video-controls button {
+            padding: 5px 10px; /* Adjust these values to control the padding inside the buttons */
+            font-size: 14px;   /* Optionally, reduce font size for smaller buttons */
+            cursor: pointer;
+        }
+
+        .video-controls .active-button {
+            background-color: blue;
+            color: white;
+        }
+
+        #videoPlayer {
+            width: 100%;  /* Adjust the width as needed */
+            height: 280px;
+            object-fit: cover;  /* Ensures the video covers the area */
+            overflow: hidden;   /* Hides the cropped portions */
+            padding: 0; 
+        }
+
+        .cropped-video {
+        object-fit: cover; /* Crops the video */
+        width: 70%;
+        height: auto;
+        /* You can further adjust the cropping using these properties */
+        object-position: center; /* Center the video inside the container */
+        clip-path: inset(0 1% 0 1%); /* top right bottom left */
+        }
+
+        .vertical-cropped-video {
+        object-fit: cover; /* Crops the video */
+        width: 70%;
+        height: auto;
+        /* You can further adjust the cropping using these properties */
+        object-position: center; /* Center the video inside the container */
+        clip-path: inset(5% 0% 5% 0%); /* top right bottom left */
+        }
+
+
+        .new_video {
+            border-radius: 15px; /* Adjust the value to control the roundness */
+            overflow: hidden; /* Ensures content stays within the rounded borders */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add some shadow for a subtle effect */
+        }
+
+
+        .callout {
+            padding: 1em;
+            margin: 1em 0;
+            border-left: 4px solid #f1c40f; /* Yellow color like a lightbulb */
+            background-color: #f9f9f9; /* Light background */
+            /* font-size: 1em; */
+            display: flex;
+            align-items: center;
+        }
+
+        /* .callout::before {
+            content: "💡";
+            font-size: 1.5em;
+            margin-right: 0.5em;
+        } */
+
+
+    </style>
+
+
+<script>
+    var videos = [
+        "static/videos/user_study_white_task1 1_25.00.mp4",
+        "static/videos/user_study_white_task2 1_25.00.mp4",
+        "static/videos/user_study_white_task3 1_25.00.mp4" // Add more video sources if needed
+    ];
+
+    // Function to load a video based on index
+    function loadVideo(index) {
+            const videoPlayer = document.getElementById('videoPlayer');
+            
+            if (index >= 0 && index < videos.length) {
+                // Store current time and playing state
+                const wasPlaying = !videoPlayer.paused;
+                
+                // Update video source
+                videoPlayer.src = videos[index];
+                
+                // After loading new source, play if it was playing before
+                videoPlayer.load();
+                if (wasPlaying) {
+                    videoPlayer.play();
+                }
+
+                // Update button styles
+                const buttons = document.querySelectorAll('.video-controls button');
+                buttons.forEach((button, i) => {
+                    if (i === index) {
+                        button.classList.add('active-button');
+                    } else {
+                        button.classList.remove('active-button');
+                    }
+                });
+            }
+        }
+
+        // Initialize first video on page load
+        window.onload = function() {
+            loadVideo(0);
+        };
+
+        // Function to toggle content visibility
+    function toggleContent(id) {
+        var content = document.getElementById(id);
+        if (content.style.display === "none") {
+            content.style.display = "block";
+        } else {
+            content.style.display = "none";
+        }
+    };
+
+</script>
+
+</head>
+<body>
+    <h1>DexHub and DART: Infrastructure for <br>Internet-Scale Robot Data Collection</h1>
+    <p class="authors">
+        <span>Younghyo Park</span>
+        <span>Jagdeep Bhatia</span>
+        <span>Lars Ankile</span>
+        <span>Pulkit Agrawal</span>
+    </p>
+    <!-- put MIT logo with fixed width  -->
+    <img src="static/images/mit_logo_std_rgb_mit-red.png" alt="MIT Logo" style="width: 70px; display: block; margin: 0 auto;">
+    <p class="paper-info">ICRA 2025 (Under Review)</p>
+    
+    <div class="info-container">
+        <div class="conference-info">
+            <strong>Oral Session:</strong> Wed 24 Jul 10:30 AM in [Hall C 1-3]
+        </div>
+        <div class="links">
+            <a href="https://arxiv.org/abs/2407.16186" target="_blank">
+                <img src="static/images/papericon.png" alt="Paper icon"> Full Paper
+            </a>
+            <a href="https://github.com/auto-env-shaping/EnvCoderBench" target="_blank">
+                <img src="https://github.com/favicon.ico" alt="Code icon"> Code Repository
+            </a>
+            <a href="https://x.com/younghyo_park/status/1815986042098348163" target="_blank">
+              <img src="https://abs.twimg.com/favicons/twitter.ico" alt="Twitter icon"> Twitter
+            </a>
+          </div>
+    </div>
+    
+    <p> </p>
+
+
+
+    <!-- <center>
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/wLfRDlVcOWM?si=9d4W9JXMOCx_KN6N" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>        
+</center>   -->
+    <p> </p>
+
+
+    <div class="abstract">
+        <h2>Abstract</h2>
+        <p>The field of robotics has long grappled with a critical challenge: the scarcity of diverse, high-quality data that can be used to train a generalist robot policy. While real-world data collection efforts exist, requirements for robot hardware, physical environment setups, and frequent resets significantly impede the scalability needed for modern learning frameworks. To address these limitations, this paper introduces DART, a novel teleoperation platform that reimagines robotic data collection by leveraging cloud-based simulation and augmented reality (AR). Our user studies highlight that DART enables higher data collection throughput and lower physical fatigue compared to real-world teleoperation frameworks. In addition, our policy training experiments using DART-collected datasets demonstrate successful Sim2Real transfer with robust trained behaviors. Most importantly, all data collected through DART is automatically stored in our cloud-hosted database, DexHub, and publicly available to anyone. DexHub also supports easy-to-use data logging APIs that can be inserted into anyone's robot execution script, positioning it as an ever-growing data hub for robot learning.
+        </p>
+    </div>
+    
+
+    <!-- <div class="content-section">
+    <h2>Key Claims</h2>
+      <ol>
+        <li>We need to <b>automate</b> the heuristic process of Environment Shaping. </li>
+        <li>We need <b>better RL algorithms</b> that don’t require heuristic environment shaping in the first place.</li>
+        <li>Developing better RL algorithms starts from <b>benchmarking on unshaped RL environments.</b></li>
+    </ol>
+
+    </div> -->
+
+
+    <!-- <div class="content-section">
+        <h2>What is a <b>robot dataset</b>, and why do we need them?</h2>
+
+        <center><b>We want a ChatGPT moment to happen for robotics.</b> </center>
+        
+        Robotics has seen impressive progress with the advent of
+        learning-based control. However, a major bottleneck is the
+        lack of diverse and high-quality data for training robust and
+        generalizable robot policies. Access to internet-scale robotics
+        dataset that continually and rapidly grows with data coming from everywhere in the world will be ideal — just like how
+        people easily upload language, images and videos on the
+        internet. Despite recent efforts, we are not there yet.
+        In this paper, we examine and address many key bottlenecks
+        in achieving this dream.
+    </div> -->
+
+
+
+    <div class="content-section">
+        <h2>How <b>robot datasets</b> are collected today</h2>
+        
+        <div class="figure-container">
+            <video class="new_video" width="100%"  autoplay loop muted controls>
+                <!-- <source src="static/videos/twitter_main_fig.mp4" type="video/mp4"> -->
+                 <!-- make it auto-loop, with no video control exposed -->
+                <source src="static/videos/typical_real_world_data_collection 1_23.00.mp4" type="video/mp4">
+            </video>  
+            <!-- <img src="static/images/rl_wish.png" alt="What we wish RL could do"> -->
+            <!-- <p class="figure-caption">A truly intelligent robot should be able to learn a new task without human supervision, removing the bottleneck to scaling capabilities.</p> -->
+        </div>
+    
+
+        <!-- <button class="toggle-button" onclick="toggleContent('step3')">See the details</button>
+        <div id="step3" class="toggle-content"> -->
+            <p>
+                <b>Step 1. Buy a robot &nbsp;|&nbsp;</b> 
+                Most data collection efforts starts with buying a <u>physical robot</u>. Unfortunately, robots are expensive. Unless you are a rich hobbyist who 
+                can spare couple of thousand dollars for an expensive toy to play around, it's mostly tech companies or research labs who owns physical robots to start collecting data with;
+                those who has the skill set and resources to recoup the investment cost. 
+                <br>
+            </p>
+
+            <p>
+                <b>Step 2. Setup an environment for the robot &nbsp;|&nbsp;</b>
+                Once we have a physical robot to work with, we now need setup an environment to collect the data in. There are two options: 
+                <ol>
+                <li>physically <b>construct</b> a fake environment in the lab around the robot</li>
+                <li>physically <b>move</b> the robot to an actual environment we are interested in</li>
+                </ol>
+                If we want to collect data for a kitchen environment, we either have to buy a fake kitchen set or physically move the robot to a real kitchen. Neither is an easy thing to do. 
+                
+            </p>
+
+
+            <p>
+                <b>Step 3. Start teleoperating the robot to complete the task. &nbsp;|&nbsp;</b>
+                Once the environment is setup, data collectors collect the data by operating the robot which leads to the second point of friction; observing and understanding the scene. 
+                For instance, due to visual occlusions and lack of tactile feedback, operators may not be able to sense object's motion resulting
+                from the robot's action. Further, if the teleoperation happens remotely, it adds additional challenges originating from network delays,
+                limited field of view, and visual artifacts. Such challenges can slow down operators and often prevent them from performing dynamic or precise tasks. 
+            </p>
+
+            <p>
+                <b>Step 4. Resetting the environment for every task completion. &nbsp;|&nbsp;</b>
+
+                If the data collector manages to resolve the first two challenges and move all the dishes from the sink to the dishwasher to complete the sample task, a third obstacle emerges; 
+                they must then return all the dishes to the sink to collect a new trajectory! In addition to being time-consuming, this resetting is both physically and mentally exhausting 
+                as operators must context-switch between robot control and environment setup. 
+                Ensuring that each reset presents the robot with a diverse range of scenarios is also mentally taxing and requires imagination. 
+
+            </p>
+            
+            
+            <p>
+                <b>Step 5. Endless Repetition. &nbsp;|&nbsp;</b>
+                What makes the experience even worse for the operators
+                is the need to repeat the process of teleoperating and
+                resetting a large number of times. The number of required
+                demonstrations scale with the task complexity and the extent
+                of required generalization. Unfortunately, humans are known
+                to lose focus when performing a repetitive job.
+            </p>
+
+            <p>
+                <b>Step 6. Post-Processing the data collected. &nbsp;|&nbsp;</b>
+                Finally, say the operator has finished collecting a few hundred demonstrations. 
+                How does the recorded data get processed and stored? 
+                It is common to store collected demonstrations on a local machine or a private cloud, which is often not shared unless someone explicitly requests it. 
+                Additionally, different data structures and conventions for data storage make data-sharing difficult.
+            </p>
+        <!-- </div> -->
+            <div class="callout">
+                Note that this is quite different how language or vision datasets are created.                  
+            </div>
+
+
+    </div>
+    
+
+
+    <div class="content-section">
+      <h2 style="margin-bottom: 5px;"><b>DART</b> reimagines robot data collection</h2>
+
+      <div class="figure-container">
+        <video class="new_video" width="100%"  autoplay loop muted>
+            <!-- <source src="static/videos/twitter_main_fig.mp4" type="video/mp4"> -->
+             <!-- make it auto-loop, with no video control exposed -->
+            <source src="static/videos/teaser_1_20.00 1_25.00.mp4" type="video/mp4">
+        </video>  
+        <!-- <img src="static/images/rl_wish.png" alt="What we wish RL could do"> -->
+        <!-- <p class="figure-caption">A truly intelligent robot should be able to learn a new task without human supervision, removing the bottleneck to scaling capabilities.</p> -->
+    </div>
+
+
+      <p>
+        <b>Step 1. Download the DART app on Vision Pro &nbsp;|&nbsp;</b> 
+        DART leverages cloud-based simulation environments to provide a scalable and cost-effective solution for data collection. 
+        Users can access the simulation environment from anywhere in the world through an immersive AR environment. 
+        This eliminates the need for a physical robot and the associated environment setup costs.
+      </p>
+  
+      <p>
+        <b>Step 2. Start Teleoperating &nbsp;|&nbsp;</b> 
+        DART leverages cloud-based simulation environments to provide a scalable and cost-effective solution for data collection. 
+        Users can access the simulation environment from anywhere in the world, using only a web browser. 
+        This eliminates the need for a physical robot and the associated setup costs.        
+      </p>
+
+      <p>
+        <b>Step 3. Access the data through <a href="https://dexhub.ai">dexhub.ai</a> &nbsp;|&nbsp;</b> 
+        Every data collected through DART is automatically logged to the cloud. 
+      </p>
+      
+    </div>
+      
+    <div class="content-section">
+      <h2>How intuitive and efficient is <b>DART</b>? </h2>
+        <b>User Study &nbsp;|&nbsp;&nbsp;</b>  A total of 20 robotics-novice participants (without any expertise in robotics or prior experience in teleoperating robots) were asked to spend 7 minutes, collecting as many robot demonstrations as possible. 
+        For real-world teleoperation, we used each robot's default teleoperation interface; both Rainbow RB-Y1 and ALOHA comes with a kinematic double as their default teacher device. 
+
+
+        <p>
+            <b>Data Throughput Comparison &nbsp;|&nbsp;</b>             Participants were able to collect 2.5x more demonstrations using DART compared to real-world teleoperation. 
+            Participants also reported lower physical fatigue and higher task completion satisfaction when using DART. 
+            The results suggest that DART is an intuitive and efficient platform for robot data collection.
+
+
+            <div class="figure-container">
+                <video class="cropped-video" width="70%" autoplay muted >
+                  <source id="videoSource" src="static/videos/animated_user_study_graph.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+            </div>
+    
+
+            Many participants attributed this considerable data throughput gap to a) physical fatigue during teleoperation and b) their inability to closely observe local contact interactions, 
+            which hindered their ability to perform tasks effectively. This particular attribution becomes evident with controlled ablation studies.
+
+            <div class="figure-container">
+                <video class="video" width="75%" autoplay muted >
+                  <source id="videoSource" src="static/videos/time_spent_animation-converted.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+            </div>
+
+        </p>
+
+
+        <p>
+            <b>Survey Results &nbsp;|&nbsp;</b>      We also asked the participants to provide qualitative feedback on their experience with DART, and existing VR-based simulation teleoperation frameworks. 
+
+
+            <div class="figure-container">
+                <video class="cropped-video" width="70%" autoplay muted >
+                  <source id="videoSource" src="static/videos/user_study_qualitative_2.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+            </div>
+    
+        </p>
+
+
+        <b>Side-by-side Comparison Videos &nbsp;|&nbsp;</b>  Below are a side-by-side comparison video comparing the data collection process in real-world versus in DART. 
+
+        <div class="video-controls" style="margin-top: 20px;">
+            <button onclick="loadVideo(0)">Object Sorting w/ Rainbow RB-Y1</button>
+            <button onclick="loadVideo(1)">Precise Insertion w/ Rainbow RB-Y1</button>
+            <button onclick="loadVideo(2)">Bolt Nut Sorting w/ ALOHA</button>
+        </div>
+
+        <!-- need to show four videos with 2x2 grid -->
+        <div class="video-container">
+            <video class="vertical-cropped-video" id="videoPlayer" width="100%" autoplay muted >
+              <source id="videoSource" src="static/videos/user_study_white_task1 1_25.00.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+        </div>
+
+    </div>
+        
+            
+<!-- 
+      For instance, 
+
+      <iframe
+      src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=vscode&wt=none&l=python&width=476&ds=true&dsyoff=6px&dsblur=9px&wc=false&wa=false&pv=2px&ph=2px&ln=false&fl=1&fm=Hack&fs=11px&lh=133%25&si=false&es=2x&wm=false&code=def%2520shaped_action_space%28self%252C%2520policy_action%29%253A%2520%250A%250A%2520%2520%2509%2523%2520scale%2520the%2520targets%2520by%2520joint%2520limits%250A%2509cur_targets%2520%253D%2520scale%28policy_action%252C%2520lower_bound%252C%2520upper_bound%29%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520compute%2520the%2520moving%2520average%2520of%2520targets%250A%2520%2520%2520%2520cur_targets%2520%253D%2520coefs%255B%27alpha%27%255D%2520*%2520cur_targets%2520%250A%2520%2520%2520%2520%2509%2509%2509%2520%2520%252B%2520%281%2520-%2520coefs%255B%27alpha%27%255D%29%2520*%2520prev_targets%250A%2520%2520%2520%2520cur_targets%2520%253D%2520clamp%28cur_targets%252C%2520lower_bound%252C%2520upper_bound%29%250A%2520%2520%2520%2520prev_targets%2520%253D%2520cur_targets%2520%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520compute%2520the%2520torques%2520according%2520to%2520PD%2520control%2520law%2520%250A%2520%2520%2520%2520torque%2520%253D%2520coefs%255B%27pgain%27%255D%2520*%2520%28cur_targets%2520-%2520self.dof_pos%29%2520%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520-%2520coefs%255B%27dgain%27%255D%2520*%2520self.dof_vel%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520apply%2520torque%250A%2520%2520%2520%2520self.robot.apply_torque%28torque%29"
+      style="width: 476px; height: 297px; border:0; transform: scale(1); overflow:hidden;"
+      sandbox="allow-scripts allow-same-origin">
+    </iframe>
+
+      <iframe
+      src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=vscode&wt=none&l=python&width=476&ds=true&dsyoff=6px&dsblur=9px&wc=false&wa=false&pv=2px&ph=2px&ln=false&fl=1&fm=Hack&fs=11px&lh=133%25&si=false&es=2x&wm=false&code=def%2520shaped_action_space%28self%252C%2520policy_action%29%253A%2520%250A%250A%2520%2520%2509%2523%2520scale%2520the%2520targets%2520by%2520joint%2520limits%250A%2509cur_targets%2520%253D%2520scale%28policy_action%252C%2520lower_bound%252C%2520upper_bound%29%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520compute%2520the%2520moving%2520average%2520of%2520targets%250A%2520%2520%2520%2520cur_targets%2520%253D%2520coefs%255B%27alpha%27%255D%2520*%2520cur_targets%2520%250A%2520%2520%2520%2520%2509%2509%2509%2520%2520%252B%2520%281%2520-%2520coefs%255B%27alpha%27%255D%29%2520*%2520prev_targets%250A%2520%2520%2520%2520cur_targets%2520%253D%2520clamp%28cur_targets%252C%2520lower_bound%252C%2520upper_bound%29%250A%2520%2520%2520%2520prev_targets%2520%253D%2520cur_targets%2520%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520compute%2520the%2520torques%2520according%2520to%2520PD%2520control%2520law%2520%250A%2520%2520%2520%2520torque%2520%253D%2520coefs%255B%27pgain%27%255D%2520*%2520%28cur_targets%2520-%2520self.dof_pos%29%2520%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520-%2520coefs%255B%27dgain%27%255D%2520*%2520self.dof_vel%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520apply%2520torque%250A%2520%2520%2520%2520self.robot.apply_torque%28torque%29"
+      style="width: 476px; height: 297px; border:0; transform: scale(1); overflow:hidden;"
+      sandbox="allow-scripts allow-same-origin">
+    </iframe>
+
+      <p>Environment shaping is an essential tool for RL practitioners; to accelerate progress, RL researchers should focus on developing a framework for understanding how shaping impacts the learning dynamics and reducing its heuristic nature.</p>
+      
+      <div class="figure-container">
+          <img src="static/images/whole_env_eureka.png" alt="">
+          <p class="figure-caption">Much of the challenge in environment shaping extends beyond reward shaping.</p>
+      </div>
+
+      <p>For more details and our recommendations for progress, <a href="https://openreview.net/forum?id=dslUyy1rN4">read the full paper</a>.</p> -->
+    
+    </div>
+
+    <div class="content-section">
+      <h2>Design choices we made for <b>DART</b></h2>
+
+      <p>
+        <b>Visual Rendering happens locally on the AR device &nbsp;|&nbsp;</b> 
+        DART off-loads compute intensive visual rendering process to an edge AR device, 
+        reducing latency without compromising the visual fidelity.
+        <div class="video-container">
+            <video width="100%" autoplay muted >
+            <source id="videoSource" src="static/videos/dart_structure.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+            </div>
+        </p>
+
+
+        <p>
+            <b>Fingertip-based Robot Controls &nbsp;|&nbsp;</b> 
+            DART off-loads compute intensive visual rendering process to an edge AR device, 
+            reducing latency without compromising the visual fidelity.
+            <div class="video-container">
+                <video width="100%" autoplay muted >
+                <source id="videoSource" src="static/videos/dart_structure.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+                </video>
+            </div>
+        </p>
+    
+    
+
+    </div>
+
+    </div>
+
+    <div class="content-section">
+        <h2>Is it really better to collect data in <b>DART</b>, <br>even if I can collect data in real-world?</h2>
+  
+        
+      </div>
+  
+
+
+</body>
+</html>
