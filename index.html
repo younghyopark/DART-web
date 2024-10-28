@@ -229,6 +229,16 @@
         clip-path: inset(0 1% 0 1%); /* top right bottom left */
         }
 
+        .cropped-video2 {
+        object-fit: cover; /* Crops the video */
+        width: 100%;
+        height: auto;
+        /* You can further adjust the cropping using these properties */
+        object-position: center; /* Center the video inside the container */
+        clip-path: inset(0 1% 0 1%); /* top right bottom left */
+        }
+
+
         .vertical-cropped-video {
         object-fit: cover; /* Crops the video */
         width: 70%;
@@ -498,13 +508,22 @@
       <h2 style="margin-bottom: 5px;"><b>DART</b> reimagines robot data collection</h2>
 
 
+      <div class="figure-container" style="margin:0%">
+        <video width="70%"  autoplay muted>
+            <!-- <source src="static/videos/twitter_main_fig.mp4" type="video/mp4"> -->
+             <!-- make it auto-loop, with no video control exposed -->
+            <source src="static/videos/dart_logo_animated.mp4" type="video/mp4">
+        </video>  
+        <!-- <img src="static/images/rl_wish.png" alt="What we wish RL could do"> -->
+        <!-- <p class="figure-caption">A truly intelligent robot should be able to learn a new task without human supervision, removing the bottleneck to scaling capabilities.</p> -->
+    </div>
 
 
       <div class="figure-container" style="margin-top:0%"  >
-        <video class="new_video" width="100%" autoplay loop muted>
+        <video class="new_video" width="100%" autoplay loop muted controls>
             <!-- <source src="static/videos/twitter_main_fig.mp4" type="video/mp4"> -->
              <!-- make it auto-loop, with no video control exposed -->
-            <source src="static/videos/teaser_1_20.00 1_25.00.mp4" type="video/mp4">
+            <source src="static/videos/new_teaser 1_25.00.mp4" type="video/mp4">
         </video>  
         <!-- <img src="static/images/rl_wish.png" alt="What we wish RL could do"> -->
         <!-- <p class="figure-caption">A truly intelligent robot should be able to learn a new task without human supervision, removing the bottleneck to scaling capabilities.</p> -->
@@ -548,13 +567,6 @@
             Many participants attributed this considerable data throughput gap to a) physical fatigue during teleoperation and b) their inability to closely observe local contact interactions, 
             which hindered their ability to perform tasks effectively. This particular attribution becomes evident with controlled ablation studies.
 
-            <div class="figure-container">
-                <video class="video" width="75%" autoplay muted >
-                  <source id="videoSource" src="static/videos/time_spent_animation-converted.mp4" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
-            </div>
-
         </p>
 
 
@@ -569,6 +581,21 @@
                 </video>
             </div>
     
+        </p>
+
+        <p>
+
+            <b>How people spend time &nbsp;|&nbsp;</b>  We also analyzed the time spent on different tasks during the data collection process.
+            The results show that participants spent significantly less time on environment setup and resetting tasks when using DART compared to real-world teleoperation.
+
+            <div class="figure-container">
+                <video class="video" width="75%" autoplay muted >
+                  <source id="videoSource" src="static/videos/time_spent_animation-converted.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+            </div>
+
+
         </p>
 
 
@@ -635,7 +662,15 @@
 
         <p>
             <b>Fingertip-based Robot Controls &nbsp;|&nbsp;</b> 
-            Instead of relying on external hand tracking devices, we use 
+            For a more intuitive user experience, instead of relying on external hand tracking or control devices, 
+            we use our hands as the primary input device for robot control. For parallel jaw grippers, 
+            users can control the gripper's opening and closing by pinching and releasing their fingers, while the end-effector SE(3) pose is specified by 4 keypoints on human hands. 
+            <div class="figure-container" >
+                <img src="static/images/fingertips.png" width="60%" alt="DART Fingertip Control">
+            </div>
+            For dexterous hands, full hand keypoints are used to control all joint angles. 
+
+
         </p>
     
     
@@ -668,7 +703,16 @@
 
 
         <p>
-            <b>2. RL Finetuning &nbsp;|&nbsp;</b> In simulation, 
+            <b>2. RL Finetuning &nbsp;|&nbsp;</b> One of the powerful benefit of simulation is the possibility of using RL to finetune the policy. 
+            Below is an example of how RL can improve the policy learned from the demonstrations. 
+
+            <div class="figure-container">
+                <video class="cropped-video2" width="100%" autoplay muted >
+                  <source id="videoSource" src="static/videos/bcvsrl 1_25.00.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+            </div>
+
         </p>
 
       </div>
@@ -676,17 +720,17 @@
 
 
       <div class="content-section">
-        <h2><b>Release Plans</b> </h2>
+        <h2><b>Future Plans</b> </h2>
         <lo>
-        <li><b>Stage 1:</b> Alpha Release
+        <li><b>Stage 1:</b> Closed-Beta Release
             <ul>
-                <li> General availability to download DART app on VisionOS App Store.</li>
+                <li> Closed-beta for DART app on VisionOS TestFlight app.</li>
                 <li> The app will allow users to teleoperate multiple pre-defined robots and tasks. </li>
                 <li> Users can download the data they have collected through our Python API. </li>
             </ul>
         </li>
             
-        <li><b>Stage 2:</b> Beta Release
+        <li><b>Stage 2:</b> Public-Beta Release
             <ul>
                 <li> Import your own custom robots and scenes through the website.</li> 
                 <li> Data collected over alpha release is generally available to the public. </li>
@@ -694,8 +738,10 @@
     
 
         </li>
-        <li><b>Stage 3:</b> Final Release </li>
+        <li><b>Stage 3:</b> General Release </li>
             <ul>
+                <li> Anyone with a Vision Pro can import custom scenes and collect robot demos.</li> 
+
             </ul>
         </lo>  
 
