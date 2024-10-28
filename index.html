@@ -271,6 +271,25 @@
             font-size: 1.5em;
             margin-right: 0.5em;
         } */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* Adjust the spacing between logos */
+            margin-top: 10px;
+        }
+
+        .logo {
+            display: inline-block;
+        }
+
+        .mit-logo {
+            height: 50px;
+        }
+
+        .lab-logo {
+            height: 40px;
+        }
 
 
     </style>
@@ -341,7 +360,11 @@
         <span>Pulkit Agrawal</span>
     </p>
     <!-- put MIT logo with fixed width  -->
-    <img src="static/images/mit_logo_std_rgb_mit-red.png" alt="MIT Logo" style="width: 70px; display: block; margin: 0 auto;">
+    <div class="logo-container">
+        <img src="static/images/mit_logo_std_rgb_mit-red.png" alt="MIT Logo" class="logo mit-logo">
+        <img src="static/images/lab_logo.png" alt="Lab Logo" class="logo lab-logo">
+    </div>
+    
     <p class="paper-info">ICRA 2025 (Under Review)</p>
 
     <div class="info-container">
