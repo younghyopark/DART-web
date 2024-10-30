@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DexHub and DART</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-bash.min.js"></script>
+    
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -265,6 +270,41 @@
             display: flex;
             align-items: center;
         }
+        .callout a {
+            white-space: nowrap; /* Prevents the link from breaking to a new line */
+            text-decoration: underline;
+        }
+
+        .callout2 {
+            background-color: #fdf6e3; /* Soft background color */
+            border-left: 4px solid #e2b007; /* Accent border on the left */
+            padding: 16px; /* Ample padding for readability */
+            margin: 16px 0; /* Vertical spacing */
+            border-radius: 8px; /* Rounded corners */
+            font-size: 1.1rem; /* Slightly larger font for emphasis */
+            color: #333; /* Dark text color for contrast */
+            max-width: 700px; /* Optional: Constrain width for readability */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        }
+
+        .callout2 a {
+            color: #007acc; /* Distinct color for the link */
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .callout2 a:hover {
+            text-decoration: underline; /* Underline on hover for link indication */
+        }
+
+        .callout2-icon {
+            font-weight: bold;
+            color: #e2b007;
+            font-size: 1.3rem;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
 
         /* .callout::before {
             content: "💡";
@@ -291,11 +331,277 @@
             height: 40px;
         }
 
+        .copy-link {
+            font-size: 0.9em;
+            color: #7f8c8d; /* Gray color */
+            cursor: pointer;
+            margin-left: 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+        .copy-link i {
+            font-size: 1.2em; /* Adjust size if needed */
+            margin-right: 5px;
+        }
+
+        .toc-nav {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1000;
+            font-size: 14px;
+        }
+
+        .toc-nav h3 {
+            margin: 0 0 10px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .toc-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-nav li {
+            margin: 8px 0;
+            padding-left: 10px;
+            border-left: 2px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .toc-nav a {
+            color: #666;
+            text-decoration: none;
+            display: block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-nav a:hover {
+            color: #2980b9;
+            background: #f5f5f5;
+        }
+
+        .toc-nav li.active {
+            border-left: 2px solid #2980b9;
+        }
+
+        .toc-nav li.active a {
+            color: #2980b9;
+            font-weight: 500;
+        }
+
+        @media (max-width: 1200px) {
+            .toc-nav {
+                display: none;
+            }
+        }
+
+        .target-demographic {
+            display: inline-block;
+            font-size: 0.85em;
+            color: #666;
+            background-color: #f5f5f5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            border-left: 3px solid #2980b9;
+        }
+
+
+        .code-container {
+            background-color: #f4f4f4; /* Light gray background */
+            border-radius: 8px; /* Rounded corners */
+            padding: 12px; /* Slightly smaller padding */
+            margin: 8px 0; /* Reduced vertical spacing above and below the container */
+            overflow-x: auto; /* Allows horizontal scrolling for long lines */
+            font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+            font-size: 1rem; /* Font size */
+            color: #333; /* Darker text color for better readability */
+        }
+
+        .code-container code {
+            color: #333; /* Matching the text color */
+            font-size: 0.95em; /* Slightly smaller text within code */
+            line-height: 1.5; /* Improved readability */
+        }
+
+
+
 
     </style>
 
 
 <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create TOC container
+        const toc = document.createElement('nav');
+        toc.className = 'toc-nav';
+        toc.innerHTML = '<h3>Contents</h3><ul></ul>';
+        document.body.appendChild(toc);
+        
+        const tocList = toc.querySelector('ul');
+        const sections = document.querySelectorAll('.content-section');
+        
+        // Ensure all sections have IDs
+        sections.forEach((section, index) => {
+            if (!section.id) {
+                section.id = `section-${index + 1}`;
+            }
+        });
+        
+        // Create TOC entries
+        sections.forEach(section => {
+            const tocTitle = section.getAttribute('data-toc-title');
+            if (tocTitle) { // Only create TOC entry if section has a data-toc-title
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.textContent = tocTitle;
+                link.href = `#${section.id}`;
+                
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    section.scrollIntoView({ behavior: 'smooth' });
+                    window.history.pushState(null, null, link.href);
+                });
+                
+                li.appendChild(link);
+                tocList.appendChild(li);
+            }
+        });
+
+        // Update active section on scroll
+        function updateActiveSection() {
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const scrollPosition = window.scrollY;
+                
+                // Consider a section active if we've scrolled past its top
+                // and haven't reached the bottom of the section
+                if (scrollPosition >= sectionTop - 100 && 
+                    scrollPosition < sectionTop + sectionHeight - 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            // Update active states in TOC
+            tocList.querySelectorAll('li').forEach(li => {
+                const link = li.querySelector('a');
+                const href = link.getAttribute('href').substring(1); // Remove #
+                
+                if (href === currentSection) {
+                    li.classList.add('active');
+                    // Ensure active item is visible in scrollable TOC
+                    li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    li.classList.remove('active');
+                }
+            });
+        }
+
+        // Initial update
+        updateActiveSection();
+        
+        // Update on scroll with throttling
+        let ticking = false;
+        document.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateActiveSection();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all h2 elements within content sections
+        document.querySelectorAll('.content-section h2').forEach((header, index) => {
+            // Ensure each .content-section has a unique id
+            const section = header.closest('.content-section');
+            if (!section.id) {
+                section.id = `section-${index + 1}`;
+            }
+
+            // Create a copy link button
+            const copyLinkBtn = document.createElement('span');
+            copyLinkBtn.classList.add('copy-link');
+            copyLinkBtn.innerHTML = '<i class="fas fa-link"></i>';
+            copyLinkBtn.setAttribute('title', 'Copy link to section');
+            copyLinkBtn.style.marginLeft = '10px';
+            copyLinkBtn.style.fontSize = '0.6em';
+            copyLinkBtn.style.opacity = '0.7';
+            copyLinkBtn.style.cursor = 'pointer';
+            copyLinkBtn.style.verticalAlign = 'middle';
+
+            // Add hover effect
+            copyLinkBtn.addEventListener('mouseenter', () => {
+                copyLinkBtn.style.opacity = '1';
+            });
+            copyLinkBtn.addEventListener('mouseleave', () => {
+                copyLinkBtn.style.opacity = '0.7';
+            });
+
+            // Add click handler to copy the URL
+            copyLinkBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const url = `${window.location.origin}${window.location.pathname}#${section.id}`;
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(url)
+                    .then(() => {
+                        // Show success message
+                        const originalTitle = copyLinkBtn.getAttribute('title');
+                        copyLinkBtn.setAttribute('title', 'Link copied!');
+                        setTimeout(() => {
+                            copyLinkBtn.setAttribute('title', originalTitle);
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy:', err);
+                    });
+            });
+
+            // Add the button next to the header
+            header.appendChild(copyLinkBtn);
+        });
+    });
     var videos = [
         "static/videos/user_study_white_task1 1_25.00.mp4",
         "static/videos/user_study_white_task2 1_25.00.mp4",
@@ -376,7 +682,7 @@
                 <img src="static/images/papericon.png" alt="Paper icon"> Full Paper
             </a>
             <a href="https://github.com/auto-env-shaping/EnvCoderBench" target="_blank">
-                <img src="https://github.com/favicon.ico" alt="Code icon"> Code Repository
+                <img src="https://github.com/favicon.ico" alt="Code icon"> API Documentation
             </a>
             <a href="https://x.com/younghyo_park/status/1815986042098348163" target="_blank">
               <img src="https://abs.twimg.com/favicons/twitter.ico" alt="Twitter icon"> Twitter
@@ -393,6 +699,11 @@
              <!-- make it auto-loop, with no video control exposed -->
             <source src="static/videos/dart_logo_animated2.mp4" type="video/mp4">
         </video>  
+        <caption style="margin:0%">
+            <center>
+            <b>You can experience everything yourself.</b> If you have an Apple Vision Pro, check out the <a href="#how-to-dart" class="custom-link">instruction</a>.
+            </center>
+        </caption>
         <!-- <img src="static/images/rl_wish.png" alt="What we wish RL could do"> -->
         <!-- <p class="figure-caption">A truly intelligent robot should be able to learn a new task without human supervision, removing the bottleneck to scaling capabilities.</p> -->
     </div>
@@ -445,7 +756,7 @@
 
 
 
-    <div class="content-section">
+    <div class="content-section" data-toc-title="How demos are collected today" id="status-quo">
         <h2>How <b>robot datasets</b> are collected today</h2>
         
         <div class="figure-container">
@@ -527,7 +838,7 @@
     
 
 
-    <div class="content-section">
+    <div class="content-section" data-toc-title="DART reimagines data collection" id="dart-intro">
       <h2 style="margin-bottom: 5px;"><b>DART</b> reimagines robot data collection</h2>
 
 
@@ -567,8 +878,16 @@
       
     </div>
       
-    <div class="content-section">
+    <div class="content-section" data-toc-title="How easy is DART to use?"  id="dart-user-study">
+
       <h2>How intuitive and efficient is <b>DART</b>? </h2>
+
+      <div class="callout">
+        Can my mom, for instance, use this to collect data for her robot?
+        </div>
+
+
+
         <b>User Study &nbsp;|&nbsp;&nbsp;</b>  A total of 20 robotics-novice participants (without any expertise in robotics or prior experience in teleoperating robots) were asked to spend 7 minutes, collecting as many robot demonstrations as possible. 
         For real-world teleoperation, we used each robot's default teleoperation interface; both Rainbow RB-Y1 and ALOHA comes with a kinematic double as their default teacher device. 
 
@@ -667,8 +986,8 @@
     
     </div>
 
-    <div class="content-section">
-      <h2>Design choices we made for <b>DART</b></h2>
+    <div class="content-section" data-toc-title="DART's design choices" id="dart-design">
+      <h2>Design choices we made</h2>
 
       <p>
         <b>Visual Rendering happens locally on the AR device &nbsp;|&nbsp;</b> 
@@ -700,9 +1019,42 @@
 
     </div>
 
+
+
+    <div class="content-section" data-toc-title="DART's Features and UI" id="dart-features">
+        <h2>What's possible in DART?</h2>
+  
+        <p>
+          <b>Instant Task Switching &nbsp;|&nbsp;</b> If anyone feels bored with current task, they can switch to a different task instantly.
+          This is not possible in real-world data collection, 
+
+        </p>
+
+        <p>
+            <b>Instant Environment Reset &nbsp;|&nbsp;</b> Upon task completion, users can reset the environment instantly to collect a new trajectory.
+            This is not possible in real-world data collection; users have to manually reset the environment with their own hands for every task completion.
+  
+          </p>
+  
+
+        <p>
+            <b>Mobile Manipulation &nbsp;|&nbsp;</b> Using the global-frame tracking capabilities of AR devices, 
+            users can walk around in an AR environment teleoperate mobile manipulators to complete tasks that require navigation and manipulation.
+        </p>
+      
+  
+        <p>
+            <b>Multi-Robot Support &nbsp;|&nbsp;</b> If you are not sure which robot is best suited for your task, you can try multiple robots in DART to complete the task.
+
+        </p>
+
+      </div>
+
+
+
     </div>
 
-    <div class="content-section">
+    <div class="content-section" data-toc-title="Power of Simulation Demos">
         <h2><b>Demonstrations in Simulation</b> offers a lot of benefits. </h2>
 
         If you are a robotics researcher who already has access to a physical robot, you might be wondering, 
@@ -741,9 +1093,63 @@
       </div>
   
 
+      <div class="content-section" data-toc-title="Experience DART yourself!" id="how-to-dart">
+        <h2><b>Experience DART yourself!</b></h2>
 
-      <div class="content-section">
-        <h2><b>Future Plans</b> </h2>
+        <div class="callout2">
+            <center>
+                Good news, you can experience DART yourself! <br>If you have an Apple Vision Pro, sign up <a href="https://dexhub.ai/">here</a> for access. 
+            </center>
+        </div>
+
+        <div class="figure-container">
+            <video class="cropped-video2" width="100%" autoplay muted controls >
+              <source id="videoSource" src="static/videos/dart_tutorial_new2 1_25.00.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <p>
+            <b>Cloud-hosted Physics Engine &nbsp;|&nbsp;</b> 
+
+            We support cloud-hosted physics engine on the following regions. Anyone can spin up a cloud-hosted physics engine 
+            in their nearest server through our portal and start collecting data.         <span class="target-demographic">Target Demographic: <b>General Public</b></span>
+
+            <figure>
+                <img src="static/images/aws-supported-regions.png" width="100%" alt="DART Fingertip Control">
+            </figure>
+        </p>
+
+        <p>
+            <b>Locally-hosted Physics Engine &nbsp;|&nbsp;</b> If you have the skill and compute resource to run the physics engine locally, 
+            you can install and run the engine yourself. <span class="target-demographic">Target Demographic: <b>Robotics Researchers / Engineers</b></span>
+
+            <div class="code-container">
+                <pre><code class="language-bash">pip install dart_physics --upgrade   
+export DEXHUB_API_TOKEN=...
+python -m dart_physics.server</code> </pre>
+            </div>
+
+            To download the data later from the cloud, make sure you export the API token as an environment variable. You can generate and find the API token in our <a href="https://dexhub.ai">DexHub</a> portal.
+
+        </p>
+
+      </div>
+
+
+      <div class="content-section" data-toc-title="Interesting research questions" id="research-questions">
+        <h2><b>Research Questions</b></h2>
+
+
+        </div>
+
+
+    
+
+
+      <div class="content-section" id="future-plans">
+        <h2><b>Future Plans</b></h2>
+
         <lo>
         <li><b>Stage 1:</b> Closed-Beta Release
             <ul>
