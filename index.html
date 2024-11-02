@@ -515,6 +515,10 @@
             color: #666;
         }
 
+        .em-text {
+            text-decoration: underline;
+        }
+
 
         
     </style>
@@ -993,7 +997,7 @@
         </video>  
         <caption style="margin:0%">
             <center>
-            <b>You can experience everything yourself.</b> If you have an Apple Vision Pro, check out the <a href="#how-to-dart" class="custom-link">instruction</a>.
+            <b>Try it yourself on Apple Vision Pro!</b> Please see our <a href="#how-to-dart" class="custom-link">getting started guide</a>.
             </center>
         </caption>
         <!-- <img src="static/images/rl_wish.png" alt="What we wish RL could do"> -->
@@ -1061,7 +1065,7 @@
 
 
     <div class="content-section" data-toc-title="How demos are collected today" id="status-quo">
-        <h2>How <b>robot datasets</b> are collected today</h2>
+        <h2>Today, robot data-collection doesn't scale</h2>
         
         <div class="figure-container">
             <video class="new_video" width="100%" playsinline  autoplay loop muted controls>
@@ -1076,62 +1080,60 @@
 
         <!-- <button class="toggle-button" onclick="toggleContent('step3')">See the details</button>
         <div id="step3" class="toggle-content"> -->
-            <p>
+
+            <!-- Create a list -->
+            <ol>
+                <li>
+                    <b>Buying a robot</b> is <u>expensive</u>, limiting data collection to tech companies or research labs.
+                </li>
+                <li>
+                    <b>Setting up an environment</b> requires either constructing a fake environments or moving robots to environments of interest, both of which are <u>difficult and time-consuming</u>.
+                </li>
+                <li>
+                    <b>Teleoperating the robot</b> suffers from visual occlusions, network delays, and a lack of tactile feedback, which can <u>slow down operators</u> and prevent them from performing dynamic or precise tasks.
+                </li>
+                <li>
+                    <b>Resetting the environment</b> for every task completion is <u>time-consuming</u> and both physically and mentally exhausting. Operators need to context-switch between robot control and environment setup, and ensure that resets are diverse.
+                </li>
+                <li>
+                    <b>Repeating</b> the process is difficult for humans, who struggle to focus when performing repetitive jobs. Unfortunately, the number of required demonstrations scales with task complexity and the extent of required generalization.
+                </li>
+                <li>
+                    <b>Post-processing collected data</b> often happens on a local machine or private cloud. Different data structures and conventions for data storage <u>make data sharing difficult</u>.
+            </ol>
+
+            <!-- <p>
                 <b>Step 1. Buy a robot &nbsp;|&nbsp;</b> 
-                Most data collection effort starts with buying a <u>physical robot</u>. Unfortunately, robots are expensive, limiting participants to tech companies or research labs.
+                Most data collection efforts require <u>expensive</u>, <u>physical robots</u>, limiting data collection to tech companies or research labs.
             </p>
 
             <p>
-                <b>Step 2. Setup an environment for the robot &nbsp;|&nbsp;</b>
-                There are two options for collecting data in the environment of your choice: 
-                <ol>
-                <li>physically <b>construct</b> a fake environment in the lab around the robot</li>
-                <li>physically <b>move</b> the robot to an environment of interest</li>
-                </ol>
-                If we want to collect data for a kitchen environment, we either have to buy a fake kitchen set or physically move the robot to a real kitchen. Neither is an easy thing to do. 
+                <b>Step 2. Setup an environment &nbsp;|&nbsp;</b> Data collectors must either physically construct a fake environment around the robot or move the robot to an environment of interest. Both are <u>difficult and time-consuming</u>. 
                 
             </p>
 
 
             <p>
-                <b>Step 3. Start teleoperating the robot to complete the task. &nbsp;|&nbsp;</b>
-                Once the environment is setup, data collectors collect the data by operating the robot which leads to the second point of friction; observing and understanding the scene. 
-                For instance, due to visual occlusions and lack of tactile feedback, operators may not be able to sense object's motion resulting
-                from the robot's action. Further, if the teleoperation happens remotely, it adds additional challenges originating from network delays,
-                limited field of view, and visual artifacts. Such challenges can slow down operators and often prevent them from performing dynamic or precise tasks. 
+                <b>Step 3. Teleoperate the robot &nbsp;|&nbsp;</b> Visual occlusions, network delays, and a lack of tactile feedback can <u>slow down operators</u> and prevent them from performing dynamic or precise tasks. 
             </p>
 
             <p>
-                <b>Step 4. Resetting the environment for every task completion. &nbsp;|&nbsp;</b>
-
-                If the data collector manages to resolve the first two challenges and move all the dishes from the sink to the dishwasher to complete the sample task, a third obstacle emerges; 
-                they must then return all the dishes to the sink to collect a new trajectory! In addition to being time-consuming, this resetting is both physically and mentally exhausting 
-                as operators must context-switch between robot control and environment setup. 
-                Ensuring that each reset presents the robot with a diverse range of scenarios is also mentally taxing and requires imagination. 
+                <b>Step 4. Reset the environment for every task completion &nbsp;|&nbsp;</b>
+                Resetting is <u>time-consuming</u> and both physically and mentally exhausting. Operators need to context-switch between robot control and environment setup, and ensure that resets are diverse.
 
             </p>
             
             
             <p>
-                <b>Step 5. Endless Repetition. &nbsp;|&nbsp;</b>
-                What makes the experience even worse for the operators
-                is the need to repeat the process of teleoperating and
-                resetting a large number of times. The number of required
-                demonstrations scale with the task complexity and the extent
-                of required generalization. Unfortunately, humans are known
-                to lose focus when performing a repetitive job.
+                <b>Step 5. Repeat &nbsp;|&nbsp;</b> Humans struggle to focus when performing repetitive jobs. Unfortunately, The number of required demonstrations scales with task complexity and the extent of required generalization. 
             </p>
 
             <p>
-                <b>Step 6. Post-Processing the data collected. &nbsp;|&nbsp;</b>
-                Finally, say the operator has finished collecting a few hundred demonstrations. 
-                How does the recorded data get processed and stored? 
-                It is common to store collected demonstrations on a local machine or a private cloud, which is often not shared unless someone explicitly requests it. 
-                Additionally, different data structures and conventions for data storage make data-sharing difficult.
-            </p>
+                <b>Step 6. Post-Process collected data &nbsp;|&nbsp;</b> Often, recorded data is stored on a local machine or private cloud. Different data structures and conventions for data storage <u>make data sharing difficult</u>.
+            </p> -->
         <!-- </div> -->
             <center>
-                <b>Do you think this will ever get us to the scale of vision/language datasets, but for robotics?</b>            
+                <b>How do we make this process scale to the size of vision/language datasets?</b>            
             </center>
 
 
