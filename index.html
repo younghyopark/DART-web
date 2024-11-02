@@ -515,8 +515,14 @@
             color: #666;
         }
 
-        .em-text {
-            text-decoration: underline;
+        .video-row {
+            display: flex;
+            gap: 20px; /* Space between videos */
+            justify-content: center; /* Center videos horizontally */
+        }
+        
+        .figure-container-side-by-side {
+            width: 45%; /* Adjust to control individual video width */
         }
 
 
@@ -1203,13 +1209,29 @@
 
             <p><b>Participants collected 2.5x more demonstrations using DART than real-world teleoperation</p></b>
 
+            <div class="video-row">
+                <div class="figure-container">
+                    <video class="cropped-video2" width="100%" playsinline autoplay muted>
+                        <source src="static/videos/animated_user_study_graph.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            
+                <div class="figure-container">
+                    <video class="cropped-video2" width="100%" playsinline autoplay muted>
+                        <source src="static/videos/user_study_qualitative_2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
 
-            <div class="figure-container">
+
+            <!-- <div class="figure-container">
                 <video class="cropped-video" width="70%" playsinline  autoplay muted >
                   <source id="videoSource" src="static/videos/animated_user_study_graph.mp4" type="video/mp4">
                   Your browser does not support the video tag.
                 </video>
-            </div>
+            </div> -->
     
             
 
@@ -1224,12 +1246,12 @@
 
             Participants attributed this gap to a) <u>reduced physical fatigue</u>, b) <u>better visibility</u> of local contact interactions, and c) <u>easier resetting</u> of the environment. Please see our paper for controlled ablation studies.
 
-            <div class="figure-container">
+            <!-- <div class="figure-container">
                 <video class="cropped-video" width="70%" playsinline autoplay muted >
                   <source id="videoSource" src="static/videos/user_study_qualitative_2.mp4" type="video/mp4">
                   Your browser does not support the video tag.
                 </video>
-            </div>
+            </div> -->
     
         </p>
 
@@ -1274,7 +1296,7 @@
 
     
     <div class="content-section" data-toc-title="DART's Features and UI" id="dart-features">
-        <h2>What does DART enable?</h2>
+        <h2>DART's features</h2>
 
 
         <p>
