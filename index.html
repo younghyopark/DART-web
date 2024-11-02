@@ -1268,74 +1268,11 @@
         </div>
 
     </div>
-        
-            
-<!-- 
-      For instance, 
 
-      <iframe
-      src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=vscode&wt=none&l=python&width=476&ds=true&dsyoff=6px&dsblur=9px&wc=false&wa=false&pv=2px&ph=2px&ln=false&fl=1&fm=Hack&fs=11px&lh=133%25&si=false&es=2x&wm=false&code=def%2520shaped_action_space%28self%252C%2520policy_action%29%253A%2520%250A%250A%2520%2520%2509%2523%2520scale%2520the%2520targets%2520by%2520joint%2520limits%250A%2509cur_targets%2520%253D%2520scale%28policy_action%252C%2520lower_bound%252C%2520upper_bound%29%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520compute%2520the%2520moving%2520average%2520of%2520targets%250A%2520%2520%2520%2520cur_targets%2520%253D%2520coefs%255B%27alpha%27%255D%2520*%2520cur_targets%2520%250A%2520%2520%2520%2520%2509%2509%2509%2520%2520%252B%2520%281%2520-%2520coefs%255B%27alpha%27%255D%29%2520*%2520prev_targets%250A%2520%2520%2520%2520cur_targets%2520%253D%2520clamp%28cur_targets%252C%2520lower_bound%252C%2520upper_bound%29%250A%2520%2520%2520%2520prev_targets%2520%253D%2520cur_targets%2520%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520compute%2520the%2520torques%2520according%2520to%2520PD%2520control%2520law%2520%250A%2520%2520%2520%2520torque%2520%253D%2520coefs%255B%27pgain%27%255D%2520*%2520%28cur_targets%2520-%2520self.dof_pos%29%2520%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520-%2520coefs%255B%27dgain%27%255D%2520*%2520self.dof_vel%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520apply%2520torque%250A%2520%2520%2520%2520self.robot.apply_torque%28torque%29"
-      style="width: 476px; height: 297px; border:0; transform: scale(1); overflow:hidden;"
-      sandbox="allow-scripts allow-same-origin">
-    </iframe>
-
-      <iframe
-      src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=vscode&wt=none&l=python&width=476&ds=true&dsyoff=6px&dsblur=9px&wc=false&wa=false&pv=2px&ph=2px&ln=false&fl=1&fm=Hack&fs=11px&lh=133%25&si=false&es=2x&wm=false&code=def%2520shaped_action_space%28self%252C%2520policy_action%29%253A%2520%250A%250A%2520%2520%2509%2523%2520scale%2520the%2520targets%2520by%2520joint%2520limits%250A%2509cur_targets%2520%253D%2520scale%28policy_action%252C%2520lower_bound%252C%2520upper_bound%29%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520compute%2520the%2520moving%2520average%2520of%2520targets%250A%2520%2520%2520%2520cur_targets%2520%253D%2520coefs%255B%27alpha%27%255D%2520*%2520cur_targets%2520%250A%2520%2520%2520%2520%2509%2509%2509%2520%2520%252B%2520%281%2520-%2520coefs%255B%27alpha%27%255D%29%2520*%2520prev_targets%250A%2520%2520%2520%2520cur_targets%2520%253D%2520clamp%28cur_targets%252C%2520lower_bound%252C%2520upper_bound%29%250A%2520%2520%2520%2520prev_targets%2520%253D%2520cur_targets%2520%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520compute%2520the%2520torques%2520according%2520to%2520PD%2520control%2520law%2520%250A%2520%2520%2520%2520torque%2520%253D%2520coefs%255B%27pgain%27%255D%2520*%2520%28cur_targets%2520-%2520self.dof_pos%29%2520%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520-%2520coefs%255B%27dgain%27%255D%2520*%2520self.dof_vel%250A%2520%2520%2520%2520%250A%2520%2520%2520%2520%2523%2520apply%2520torque%250A%2520%2520%2520%2520self.robot.apply_torque%28torque%29"
-      style="width: 476px; height: 297px; border:0; transform: scale(1); overflow:hidden;"
-      sandbox="allow-scripts allow-same-origin">
-    </iframe>
-
-      <p>Environment shaping is an essential tool for RL practitioners; to accelerate progress, RL researchers should focus on developing a framework for understanding how shaping impacts the learning dynamics and reducing its heuristic nature.</p>
       
-      <div class="figure-container">
-          <img src="static/images/whole_env_eureka.png" alt="">
-          <p class="figure-caption">Much of the challenge in environment shaping extends beyond reward shaping.</p>
-      </div>
+    <!-- </div> -->
 
-      <p>For more details and our recommendations for progress, <a href="https://openreview.net/forum?id=dslUyy1rN4">read the full paper</a>.</p> -->
     
-    </div>
-
-    <div class="content-section" data-toc-title="DART's design choices" id="dart-design">
-      <h2>Design choices we made</h2>
-
-      <p>
-        <b>Visual Rendering happens locally on the AR device &nbsp;|&nbsp;</b> Compared to existing VR-based teleoperation approaches which sends over the entire camera feed or rendered image over the network
-        <span class="footnote-content">A. Iyer, Z. Peng, Y. Dai, I. Guzey, S. Haldar, S. Chintala, and
-            L. Pinto, “Open teach: A versatile teleoperation system for robotic
-            manipulation,” arXiv preprint arXiv:2403.07870, 2024.</span><span class="footnote-content">X. Cheng, J. Li, S. Yang, G. Yang, and X. Wang, “Open-television:
-                teleoperation with immersive active visual feedback,” arXiv preprint
-                arXiv:2407.01512, 2024</span>, 
-        DART off-loads compute intensive visual rendering process to an edge AR device, 
-        reducing latency without compromising the visual fidelity.
-        <div class="video-container">
-            <video width="100%" playsinline autoplay muted >
-            <source id="videoSource" src="static/videos/dart_structure.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-            </video>
-            </div>
-        </p>
-
-
-        <p>
-            <b>Fingertip-based Robot Controls &nbsp;|&nbsp;</b> 
-            For a more intuitive user experience, instead of relying on external hand tracking or control devices, 
-            we use our hands as the primary input device for robot control. For parallel jaw grippers, 
-            users can control the gripper's opening and closing by pinching and releasing their fingers, while the end-effector SE(3) pose is specified by 4 keypoints on human hands. 
-            <div class="figure-container" >
-                <img src="static/images/fingertips.png" width="60%" alt="DART Fingertip Control">
-            </div>
-            For dexterous hands, full hand keypoints are used to control all joint angles. 
-
-
-        </p>
-    
-    
-
-    </div>
-
-
-
     <div class="content-section" data-toc-title="DART's Features and UI" id="dart-features">
         <h2>What does DART enable?</h2>
 
@@ -1410,11 +1347,46 @@
             <b>Support of Custom Scenes and Robots &nbsp;|&nbsp;</b> If you have a custom robot or a scene that you want to collect data for,
             you can upload them through our website and start collecting data right away.<span class="footnote-content">Custom scene / robot description upload will be available Jan 2025.</span>
         </p>
-
-
-
       </div>
 
+
+    <div class="content-section" data-toc-title="DART's design choices" id="dart-design">
+      <h2>Design choices we made</h2>
+
+      <p>
+        <b>Visual Rendering happens locally on the AR device &nbsp;|&nbsp;</b> Compared to existing VR-based teleoperation approaches which send over the entire camera feeds or rendered images over the network
+        <span class="footnote-content">A. Iyer, Z. Peng, Y. Dai, I. Guzey, S. Haldar, S. Chintala, and
+            L. Pinto, “Open teach: A versatile teleoperation system for robotic
+            manipulation,” arXiv preprint arXiv:2403.07870, 2024.</span><span class="footnote-content">X. Cheng, J. Li, S. Yang, G. Yang, and X. Wang, “Open-television:
+                teleoperation with immersive active visual feedback,” arXiv preprint
+                arXiv:2407.01512, 2024</span>, 
+        DART off-loads compute intensive visual rendering processes to an edge AR device, 
+        reducing latency without compromising the visual fidelity.
+        <div class="video-container">
+            <video width="100%" playsinline autoplay muted >
+            <source id="videoSource" src="static/videos/dart_structure.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+            </div>
+        </p>
+
+
+        <p>
+            <b>Fingertip-based Robot Controls &nbsp;|&nbsp;</b> 
+            For a more intuitive user experience, instead of relying on external hand tracking or control devices, 
+            we use our hands as the primary input device for robot control. For parallel jaw grippers, 
+            users can control the gripper's opening and closing by pinching and releasing their fingers, while the end-effector SE(3) pose is specified by 4 keypoints on human hands. 
+            <div class="figure-container" >
+                <img src="static/images/fingertips.png" width="60%" alt="DART Fingertip Control">
+            </div>
+            For dexterous hands, full hand keypoints are used to control all joint angles. 
+
+
+        </p>
+    
+    
+
+    </div>
 
 
     <div class="content-section" data-toc-title="Power of Simulation Demos" id="power-of-simulation">
