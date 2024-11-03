@@ -1592,17 +1592,19 @@ python -m dart_physics.server</code> </pre>
       <div class="content-section" id="real-world-datasets" data-toc-title="Real-world Demos are still useful">
         <h2><b>Real-world datasets will still be useful</b></h2>
 
-        We are not claiming that simulation-collected demos are the only useful source of robot data; 
+        <!-- We are not claiming that simulation-collected demos are the only useful source of robot data; 
         In fact, we believe that a few real-world demonstrations will be very useful to fine-tune the policy learned from simulation data, 
-        especially for last-mile Sim2Real transfer process. 
+        especially for last-mile Sim2Real transfer process.  -->
+
+        We hypothesize that the scale and diversity of data required for a robot foundation model are most feasibly achieved through simulation. However, our work does not aim to replace real-world data collection entirely. Real-world data is paramount for fine-tuning policies learned from simulation data, aiding in last-mile Sim2Real transfer, and serving as a regularizer to prevent over-exploiting simulation and/or deviating too much from the real world.
         
         <div class="figure-container" >
             <img src="static/images/dataset_fraction.png" width="70%" alt="data-fraction">
         </div>
 
 
-        We still believe, however, that the scale and diversity of robot foundation model's behavior will mostly come from simulation demos, 
-        where real-world datasets will mostly serve as a regularizer preventing the policy from over-exploiting the artifacts of simulation and/or deviating too much from the real-world counterparts. 
+        <!-- We still believe, however, that the scale and diversity of robot foundation model's behavior will mostly come from simulation demos, 
+        where real-world datasets will mostly serve as a regularizer preventing the policy from over-exploiting the artifacts of simulation and/or deviating too much from the real-world counterparts.  -->
 
 
     </div>
@@ -1615,7 +1617,8 @@ python -m dart_physics.server</code> </pre>
         <h2><b>Call for Research / Code-Works</b></h2>
 
         <p>
-            DART and DexHub are still in the early stages of development, which still lacks a lot of features that can significantly improve the data collection process.
+            DART and DexHub are still in the early stages of development, with room to grow. We've listed a few ideas we encourage the community to explore.
+            <!-- which still lacks a lot of features that can significantly improve the data collection process. -->
         </p>
 
         <h3><b>Generative Simulation Scene Modeling</b></h3>
@@ -1673,8 +1676,7 @@ python -m dart_physics.server</code> </pre>
 
         <p>
         We believe that robot dataset with the size of vision and language datasets cannot come from project-level data collection efforts, led by 
-        single research labs or tech companies. Instead, it requires a community-driven effort, where researchers from all over the world can contribute to the dataset, 
-        just like how every image, texts, comments, articles being uploaded to the internet are a potential source of vision-language model training. 
+        single research labs or tech companies. Instead, it requires a global, community-driven effort, mirroring the internet as a data-source for vision-language model training. 
         </p>
 
         <div class="figure-container">
