@@ -1398,58 +1398,51 @@
         <h2>DART's features</h2>
 
         <div class="feature-controls">
-            <button class="feature-button active-button" onclick="showFeature('task-switching')">Task/Robot Switching</button>
-            <button class="feature-button" onclick="showFeature('viewpoint-switching')">Ego/Exo Viewpoint</button>
-            <button class="feature-button" onclick="showFeature('env-reset')">Environment Reset</button>
+            <button class="feature-button active" onclick="showFeature('env-reset')">One-click Reset</button>
             <button class="feature-button" onclick="showFeature('mobile-manipulation')">Mobile Manipulation</button>
-            <button class="feature-button" onclick="showFeature('multi-robot')">Multi-Robot</button>
-            <button class="feature-button" onclick="showFeature('custom-support')">Custom Support</button>
+            <button class="feature-button" onclick="showFeature('viewpoint-switching')">Ego/Exo Viewpoint</button>
+            <button class="feature-button" onclick="showFeature('task-switching')">Anti-boredom Teleoperation</button>
+            <button class="feature-button" onclick="showFeature('multi-robot')">Diverse Robot Platforms</button>
+            <button class="feature-button" onclick="showFeature('custom-support')">Custom Environment Support</button>
         </div>
 
-        <div id="task-switching-container" style="display: block;">
+        <div id="task-switching-container" style="display: none;">
             <p>
-                <b>Instant Task/Robot Switching &nbsp;|&nbsp;</b> Humans are known to lose focus when given a highly repetitive job<span class="footnote-content">Häusser, J. A., Schulz‐Hardt, S., Schultze, T., Tomaschek, A., & Mojzisch, A. (2014). Experimental evidence for the effects of task repetitiveness on mental strain and objective work performance. Journal of Organizational Behavior, 35(5), 705-721. <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/job.1920">[link]</a></span>.
-              Instead of making teleoperators to get bored with continuously repeating the same task over and over, DART allows them to switch to a different task or robot as needed.
-            This is not possible in real-world data collection, since setting up a new task requires a lot of time and effort; 
-            they should get the most juice out of the current environment setup before moving on to the next task or setup.
+                <b>Anti-boredom Teleoperation &nbsp;|&nbsp;</b> Humans are known to lose focus when performing highly repetitive jobs<span class="footnote-content">Häusser, J. A., Schulz‐Hardt, S., Schultze, T., Tomaschek, A., & Mojzisch, A. (2014). Experimental evidence for the effects of task repetitiveness on mental strain and objective work performance. Journal of Organizational Behavior, 35(5), 705-721. <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/job.1920">[link]</a></span>.
+                To alleviate boredom, DART can be configured to cycle through a wide range of tasks – a strategy that is not sensible for real-world data collection.
             </p>
         </div>
         <div id="viewpoint-switching-container" style="display: none;">
             <p>
-                <b>Ego/Exo-Viewpoint Switching &nbsp;|&nbsp;</b> Although the default option is to let the teleoperators be in an ego-viewpoint, i.e., letting users be a robot themselves, 
-                we often find it useful to switch to an exo-viewpoint to observe the robot's motion from a different perspective. In DART, users can easily switch between ego and exo viewpoints; 
-                be the robot yourself, or sit in front of the robot, all still being super close to the place where important contacts happen. 
+                <b>Ego/Exo-Viewpoint &nbsp;|&nbsp;</b> DART can be easily configured for 1st person or 3rd person viewpoints.
             </p>
 
         </div>
-        <div id="env-reset-container" style="display: none;">
+        <div id="env-reset-container" style="display: block;">
             <p>
-                <b>One-Click Environment Reset &nbsp;|&nbsp;</b> Upon task completion, users can reset the environment instantly to collect a new trajectory.
-                This is not possible in real-world data collection; users have to manually reset the environment with their own hands for every task completion.
+                <b>One-Click Environment Reset &nbsp;|&nbsp;</b> Unlike real-world data collection, DART allows users to reset the environment instantly, resulting in a seamless teleoperation experience.
             </p>
         </div>
         <div id="mobile-manipulation-container" style="display: none;">
             <p>
-                <b>Mobile Manipulation &nbsp;|&nbsp;</b> Using the global-frame tracking capabilities of AR devices, 
-                users can walk around in an AR environment teleoperating mobile manipulators to complete tasks that require navigation and manipulation.
+                <b>Mobile Manipulation &nbsp;|&nbsp;</b> DART tracks users’ global pose, allowing them to teleoperate mobile manipulators and complete tasks that require navigation.
             </p>
         </div>
         <div id="multi-robot-container" style="display: none;">
             <p>
-                <b>Multi-Robot Support &nbsp;|&nbsp;</b> If you are not sure which robot is best suited for your task, you can try multiple robots in DART to complete the task.
+                <b>Multi-Robot Support &nbsp;|&nbsp;</b> DART supports many platforms out-of-the-box. To have a platform added, please contact us at <a href="mailto:dexhub@mit.edu">dexhub@mit.edu</a>.
             </p>
         </div>
         <div id="custom-support-container" style="display: none;">
             <p>
-                <b>Support of Custom Scenes and Robots &nbsp;|&nbsp;</b> If you have a custom robot or a scene that you want to collect data for,
-                you can upload them through our website and start collecting data right away.<span class="footnote-content">Custom scene / robot description upload will be available Jan 2025.</span>
+                <b>Custom Scenes &nbsp;|&nbsp;</b> Custom scenes can be uploaded through our website.<span class="footnote-content">Custom scene / robot description upload will be available Jan 2025.</span>
             </p>
         </div>
 
 
         <div class="figure-container" id="activeFeatureVideoContainer">
             <video class="new_video" id="activeFeatureVideoSource" width="80%" playsinline  autoplay muted loop>
-                <source id="videoSource" src="static/videos/instant_task_switching 1_26.00.mp4" type="video/mp4">
+                <source id="videoSource" src="static/videos/random_resets.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
