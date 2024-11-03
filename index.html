@@ -121,7 +121,7 @@
           text-align: center;
         }
         .figure-container img {
-            max-height: 300px;
+            max-height: 500px;
             max-width: 100%;
             height: auto;
             /* border: 1px solid #ddd; */
@@ -265,6 +265,14 @@
         .cropped-video2 {
         object-fit: cover; /* Crops the video */
         width: 100%;
+        height: auto;
+        /* You can further adjust the cropping using these properties */
+        object-position: center; /* Center the video inside the container */
+        clip-path: inset(0 1% 0 1%); /* top right bottom left */
+        }
+
+        .cropped-video3 {
+        object-fit: cover; /* Crops the video */
         height: auto;
         /* You can further adjust the cropping using these properties */
         object-position: center; /* Center the video inside the container */
@@ -487,7 +495,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             z-index: 1001;
-            max-width: 80%;
+            max-width: 25%;
             width: auto;
             max-height: 80vh;
             overflow-y: auto;
@@ -549,8 +557,32 @@
             justify-content: center; /* Center videos horizontally */
         }
 
+        #activeFeatureImageContainer img {
+            width: 85%;
+            max-width: 100%; /* Ensures the image doesn't exceed the container's width */
+            height: auto;
+            object-fit: contain; /* Preserves aspect ratio within the container */
+            display: block;
+            margin: 0 auto; /* Centers the image */
+        }
 
-        
+        .subtitle {
+            /* font-weight: normal;
+            font-size: 1.25em; */
+            color: #555;
+            margin-top: 0em;
+            margin-bottom: 1em;
+        }
+
+        .title {
+            /* font-weight: bold; */
+            /* font-size: 1.7em; */
+            color: #555;
+            /* margin-top: 2em; */
+            margin-bottom: 0em;
+        }
+
+
     </style>
 
 <div class="footnote-overlay" id="footnoteOverlay"></div>
@@ -560,6 +592,15 @@
 </div>
 
 <script>
+
+    function toggleDeveloperSection() {
+        var developerSection = document.getElementById("developer-section");
+        if (developerSection.style.display === "none") {
+            developerSection.style.display = "block";
+        } else {
+            developerSection.style.display = "none";
+        }
+    }
 
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -983,8 +1024,10 @@
             videoSrc: 'static/videos/mobile_manip.mp4'
         },
         'multi-robot': {
+            imageSrc: 'static/images/multi_robot_6.png' // Add image source here
         },
         'custom-support': {
+            // Add video or image source if needed
         }
     };
 
@@ -994,62 +1037,38 @@
             button.classList.remove('active');
         });
         event.target.classList.add('active');
-    
+
         // Get the feature data
         const feature = features[featureId];
-        
+
         // Update the text content
         for (const [key, value] of Object.entries(features)) {
             const textContainerId = key + '-container';
             const textContainer = document.getElementById(textContainerId);
-            if (!textContainer) {
-                continue;
-            }
-            if (key !== featureId) {
-                textContainer.style.display = 'none';
-            }
-            else {
-                textContainer.style.display = 'block';
-            }
+            if (!textContainer) continue;
+            textContainer.style.display = key === featureId ? 'block' : 'none';
         }
 
-        // Update the video source
+        // Update video or image display
         const videoContainer = document.getElementById('activeFeatureVideoContainer');
+        const imageContainer = document.getElementById('activeFeatureImageContainer');
         const videoPlayer = document.getElementById('activeFeatureVideoSource');
+        const imageElement = document.getElementById('activeFeatureImageSource');
 
-        console.log(videoContainer);
-        console.log(videoPlayer);
-        
+        // Check if the feature has a video
         if (feature.videoSrc) {
-            // Store current playing state
-            const wasPlaying = !videoPlayer.paused;
-            
-            // Update video source
-            const before = videoPlayer.src;
             videoPlayer.src = feature.videoSrc;
-            console.log(before, videoPlayer.src);
-            
-            // After loading new source, play if it was playing before
             videoPlayer.load();
-            if (wasPlaying) {
-                videoPlayer.play();
-            }
-            
-            // Show video container
+            videoPlayer.play();
             videoContainer.style.display = 'block';
-        } else {
-            // Hide video container if there's no video
+            imageContainer.style.display = 'none';
+        } else if (feature.imageSrc) {
+            imageElement.src = feature.imageSrc;
+            imageContainer.style.display = 'block';
             videoContainer.style.display = 'none';
-        }
-    }
-
-    // Function to toggle content visibility
-    function toggleContent(id) {
-        var content = document.getElementById(id);
-        if (content.style.display === "none") {
-            content.style.display = "block";
         } else {
-            content.style.display = "none";
+            videoContainer.style.display = 'none';
+            imageContainer.style.display = 'none';
         }
     };
 
@@ -1076,7 +1095,7 @@
 
     <div class="info-container">
         <div class="conference-info">
-            Visit <strong>CoRL 2024 XE/WBCM Workshop</strong> <br>for an in-person demo, Nov 9th, Munich
+            Visit <strong>CoRL 2024 <a href="https://sites.google.com/view/xembodimentworkshop">XE</a>/<a href="https://wcbm-workshop.github.io/">WBCM</a> Workshop</strong> <br>for an in-person demo on Nov 9th, Munich
         </div>
         <div class="links">
             <a href="https://arxiv.org/abs/2407.16186" target="_blank">
@@ -1102,7 +1121,8 @@
         </video>  
         <caption style="margin:0%">
             <center>
-            <b>Try it yourself on Apple Vision Pro!</b> Please see our <a href="#how-to-dart" class="custom-link">getting started guide</a>.
+            <b>Try it yourself on Apple Vision Pro!</b> Please see our <a href="#how-to-dart" class="custom-link">getting started guide</a>.<br>
+            If you're a researcher working on AI / Robotics, check out our <a href="#call-for-research" class="custom-link">call for research</a>. 
             </center>
         </caption>
         <!-- <img src="static/images/rl_wish.png" alt="What we wish RL could do"> -->
@@ -1170,7 +1190,7 @@
 
 
     <div class="content-section" data-toc-title="How demos are collected today" id="status-quo">
-        <h2>Today, robot data-collection doesn't scale</h2>
+        <h2>How <b>robot datasets</b> are collected today</h2>
         
         <div class="figure-container">
             <video class="new_video" width="100%" playsinline  autoplay loop muted controls>
@@ -1192,19 +1212,22 @@
                     <b>Buying a robot</b> is <u>expensive</u>, limiting data collection to tech companies or research labs.
                 </li>
                 <li>
-                    <b>Setting up environments</b> requires either constructing them or moving robots to sites of interest, both of which are <u>difficult and time-consuming</u>.
+                    <b>Setting up environments</b> requires either (a) constructing a fake setup around the robot in the lab or (b) moving robots to actual sites of interest, both of which are <u>difficult and time-consuming</u>.
                 </li>
                 <li>
-                    <b>Teleoperating the robot</b> suffers from visual occlusions, network delays, and a lack of tactile feedback, which can <u>slow down operators</u> and prevent them from performing dynamic or precise tasks.
+                    <b>Teleoperating the robot</b> suffers from visual occlusions, network delays, and a lack of rich feedback, which can <u>slow down operators</u> and prevent them from performing dynamic or precise tasks.
                 </li>
                 <li>
-                    <b>Resetting the environment</b> after every task completion is <u>time-consuming</u> and physically and mentally exhausting. Operators need to context-switch between robot control and environment setup, and ensure that resets are diverse.
+                    <b>Resetting the environment</b> after every task completion is <u>time-consuming</u> and physically exhausting. Operators need to context-switch between robot control and environment setup way too frequently. 
+                    In addition, ensuring diverse reset states is not as easy as it sounds; human operators often unintentionally repeat certain reset configurations that are easier to solve.
                 </li>
                 <li>
-                    <b>Repeating</b> the process is difficult for humans, who struggle to focus when performing repetitive jobs. Unfortunately, the number of required demonstrations scales with task complexity and the extent of required generalization.
+                    <b>Repetitive jobs</b>, no matter how easy the task is, quickly lead to fatigue and operator burnout. 
+                     Unfortunately, the number of required demonstrations scales with task complexity and the extent of required generalization.
                 </li>
                 <li>
-                    <b>Post-processing collected data</b> often happens on a local machine or private cloud. Different data structures and conventions for data storage <u>make data sharing difficult</u>.
+                    <b>Post-processing collected data</b> often happens on a local machine or private cloud. 
+                    Different data structures and conventions for data storage <u>make data sharing difficult</u>, which are essential for scaling up.
             </ol>
 
             <!-- <p>
@@ -1255,7 +1278,7 @@
         <video class="new_video" width="100%" playsinline  autoplay loop muted controls>
             <!-- <source src="static/videos/twitter_main_fig.mp4" type="video/mp4"> -->
              <!-- make it auto-loop, with no video control exposed -->
-            <source src="static/videos/new_teaser 1_25.00.mp4" type="video/mp4">
+            <source src="static/videos/final_teaser_video 1_26.00.mp4" type="video/mp4">
         </video>  
         <!-- <img src="static/images/rl_wish.png" alt="What we wish RL could do"> -->
         <!-- <p class="figure-caption">A truly intelligent robot should be able to learn a new task without human supervision, removing the bottleneck to scaling capabilities.</p> -->
@@ -1264,20 +1287,22 @@
 
       <p>
         <b>Collect Data Anywhere in Augmented Reality &nbsp;|&nbsp;</b> 
-        DART leverages cloud-based simulation and AR to provide a <u>scalable</u>, <u>intuitive</u>, and <u>cost-effective</u> solution for data collection accessible anywhere in the world. This eliminates the need for a physical robot and associated environment setup costs.
-
+        DART leverages cloud-based simulation and AR to provide a <u>scalable</u>, <u>intuitive</u>, and <u>cost-effective</u> 
+        solution for data collection accessible anywhere in the world. This eliminates the need for a physical robot and associated environment setup costs.
       </p>
   
       <p>
-        <b>Access Data through <a href="https://dexhub.ai">DexHub.ai</a> &nbsp;|&nbsp;</b> 
-        All data collected through DART is <u>automatically logged</u> to the cloud and <u>shared publicly</u> with researchers.
+        <b>Access Data through <a href="https://dexhub.ai">DexHub</a> &nbsp;|&nbsp;</b> 
+        All data collected through DART is <u>automatically logged</u> to the cloud and <u>shared publicly</u> with researchers. 
+        We provide both web interface and an easy-to-use Python API for data access. 
       </p>
       
     </div>
       
     <div class="content-section" data-toc-title="How easy is DART to use?"  id="dart-user-study">
 
-      <h2>User Study: <b>DART</b> is intuitive and efficient</h2>
+      <h2 class="title"><b>DART</b> is intuitive and efficient</h2>
+      <h3 class="subtitle" >User study shows higher data collection throughput and lower operator fatigue. </h3>
 
       <!-- <p>We bet even your mom could use it.</p> -->
 
@@ -1306,9 +1331,17 @@
 
             <!-- <p>Participants collected <b>2.5x more demonstrations</b> using DART than real-world teleoperation and reported lower physical fatigue and higher task completion satisfaction.</p> -->
 
-            <p><b>Participants collected 2.5x more demonstrations using DART than real-world teleoperation</p></b>
+            <p>Participants collected <b>2.5x more demonstrations on average</b> using DART than real-world teleoperation setups.</p>
 
-            <div class="video-row">
+            <div class="figure-container">
+                <video class="cropped-video3" width="70%" playsinline autoplay muted>
+                    <source src="static/videos/animated_user_study_graph.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+
+            <!-- <div class="video-row">
                 <div class="figure-container">
                     <video class="cropped-video2" width="100%" playsinline autoplay muted>
                         <source src="static/videos/animated_user_study_graph.mp4" type="video/mp4">
@@ -1322,7 +1355,7 @@
                         Your browser does not support the video tag.
                     </video>
                 </div>
-            </div>
+            </div> -->
 
 
             <!-- <div class="figure-container">
@@ -1343,7 +1376,8 @@
         <p>
             <!-- <b>Survey Results &nbsp;|&nbsp;</b>      We also asked the participants to provide qualitative feedback on their experience with DART, and existing VR-based simulation teleoperation frameworks.  -->
 
-            Participants attributed this gap to a) <u>reduced physical fatigue</u>, b) <u>better visibility</u> of local contact interactions, and c) <u>easier resetting</u> of the environment. Please see our paper for controlled ablation studies.
+            Participants attributed this gap to a) <u>reduced physical fatigue</u>, b) <u>better visibility</u> of local contact interactions, and c) <u>easier resetting</u> of the environment. 
+            Please see our paper for controlled ablation studies.
 
             <!-- <div class="figure-container">
                 <video class="cropped-video" width="70%" playsinline autoplay muted >
@@ -1351,6 +1385,14 @@
                   Your browser does not support the video tag.
                 </video>
             </div> -->
+
+            <div class="figure-container">
+                <video class="cropped-video3" width="70%" playsinline autoplay muted>
+                    <source src="static/videos/user_study_qualitative_2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
     
         </p>
 
@@ -1394,22 +1436,30 @@
     <!-- </div> -->
 
     
-    <div class="content-section" data-toc-title="DART's Features and UI" id="dart-features">
-        <h2><b>DART's</b> features</h2>
+    <div class="content-section" data-toc-title="DART's Features" id="dart-features">
+        <h2 class="title">Features of <b>DART</b></h2>
+        <h3 class="subtitle">What makes DART so intuitive and efficient?</h3>
+
+        <p>
+            DART's features are carefully designed to make data collection more efficient and less fatiguing for operators.
+            We focused on making the data collection experience <b>fun and engaging</b>, rather than <b>taxing, repetitive, and boring</b>.
+        </p>
 
         <div class="feature-controls">
             <button class="feature-button active" onclick="showFeature('env-reset')">One-click Reset</button>
+            <button class="feature-button" onclick="showFeature('task-switching')">Anti-Boredom</button>
             <button class="feature-button" onclick="showFeature('mobile-manipulation')">Mobile Manipulation</button>
             <button class="feature-button" onclick="showFeature('viewpoint-switching')">Ego/Exo Viewpoint</button>
-            <button class="feature-button" onclick="showFeature('task-switching')">Anti-boredom Teleoperation</button>
-            <button class="feature-button" onclick="showFeature('multi-robot')">Diverse Robot Platforms</button>
-            <button class="feature-button" onclick="showFeature('custom-support')">Custom Environment Support</button>
+            <button class="feature-button" onclick="showFeature('multi-robot')">Multi-Robot</button>
+            <!-- <button class="feature-button" onclick="showFeature('custom-support')">Custom Environment Support</button> -->
         </div>
 
         <div id="task-switching-container" style="display: none;">
             <p>
-                <b>Anti-boredom Teleoperation &nbsp;|&nbsp;</b> Humans are known to lose focus when performing highly repetitive jobs<span class="footnote-content">Häusser, J. A., Schulz‐Hardt, S., Schultze, T., Tomaschek, A., & Mojzisch, A. (2014). Experimental evidence for the effects of task repetitiveness on mental strain and objective work performance. Journal of Organizational Behavior, 35(5), 705-721. <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/job.1920">[link]</a></span>.
-                To alleviate boredom, DART can be configured to cycle through a wide range of tasks – a strategy not sensible for real-world data collection.
+                <b>Anti-boredom Data Collection &nbsp;|&nbsp;</b> Humans are known to lose focus when performing highly repetitive jobs<span class="footnote-content">Häusser, J. A., Schulz‐Hardt, S., Schultze, T., Tomaschek, A., & Mojzisch, A. (2014). Experimental evidence for the effects of task repetitiveness on mental strain and objective work performance. Journal of Organizational Behavior, 35(5), 705-721. <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/job.1920">[link]</a></span>
+                , which unfortunately is an essential part of the real-world robot teleoperator's job.
+                DART, on the other hand, can be configured to cycle through a wide range of tasks instantly with a click of a button to minimize mental fatigue and boredom coming from endless repetition of a single task; 
+                a feature that is not possible in real-world teleoperation setup.
             </p>
         </div>
         <div id="viewpoint-switching-container" style="display: none;">
@@ -1420,17 +1470,19 @@
         </div>
         <div id="env-reset-container" style="display: block;">
             <p>
-                <b>One-Click Environment Reset &nbsp;|&nbsp;</b> Unlike real-world data collection, DART allows users to reset the environment instantly, resulting in a seamless teleoperation experience.
+                <b>One-Click Environment Reset &nbsp;|&nbsp;</b> Unlike real-world data collection, DART allows users to reset the environment instantly with programatically-ensured randomness, 
+                resulting in a (a) reduced mental/physical fatigue for data collectors, (b) increased data collection throughput, and (c) diversity-ensured data.
             </p>
         </div>
         <div id="mobile-manipulation-container" style="display: none;">
             <p>
-                <b>Mobile Manipulation &nbsp;|&nbsp;</b> DART tracks users’ global pose, allowing them to teleoperate mobile manipulators and complete tasks that require navigation.
+                <b>Mobile Manipulation &nbsp;|&nbsp;</b> DART tracks every human movements in a global frame; it allows users to teleoperate mobile manipulators and complete tasks that require navigation.
             </p>
         </div>
         <div id="multi-robot-container" style="display: none;">
             <p>
-                <b>Multi-Robot Support &nbsp;|&nbsp;</b> DART supports many platforms out-of-the-box. To have a platform added, please contact us at <a href="mailto:dexhub@mit.edu">dexhub@mit.edu</a>.
+                <b>Multi-Robot Support &nbsp;|&nbsp;</b> DART supports many bimanual robot platforms out-of-the-box. If you want your robot platform to be added, please contact us at <a href="mailto:dexhub@mit.edu">dexhub@mit.edu</a>. 
+            
             </p>
         </div>
         <div id="custom-support-container" style="display: none;">
@@ -1445,6 +1497,9 @@
                 <source id="videoSource" src="static/videos/random_resets.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+        </div>        
+        <div class="figure-container" id="activeFeatureImageContainer" style="display: none; ">
+            <img id="activeFeatureImageSource" >
         </div>
 
       </div>
@@ -1473,7 +1528,8 @@
 
         <p>
             <b>Fingertip-based Robot Controls &nbsp;|&nbsp;</b> 
-            For an intuitive user experience, DexHub uses built-in hand-tracking rather than relying on external control devices. Parallel jaw grippers are controlled by pinching and releasing fingers. SE(3) pose is specified by tracking four hand keypoints, as seen below. 
+            For an intuitive user experience, DexHub uses built-in hand-tracking rather than relying on external control devices. 
+            Parallel jaw grippers are controlled by pinching and releasing fingers. Full SE(3) pose is specified by tracking four hand keypoints, as seen below. 
             <div class="figure-container" >
                 <img src="static/images/fingertips.png" width="60%" alt="DART Fingertip Control">
             </div>
@@ -1492,7 +1548,7 @@
         If you are a robotics researcher who already has access to a physical robot, you might be wondering, 
 
         <div class="callout">
-            Why should I care about collecting data in simulation?
+            Why should I care about collecting data in simulation if I can collect directly in the real world?
         </div>
         We argue that collecting data in simulation offers several benefits over real-world data collection. 
 
@@ -1550,7 +1606,7 @@ preprint arXiv:2407.16677, 2024.
 
         <div class="callout2">
             <center>
-                Try DART on Apple Vision Pro! <br>Sign up <a href="https://dexhub.ai/">here</a> for access. 
+                Try DART on your own Apple Vision Pro! <br>Sign up <a href="https://dexhub.ai/">here</a> for access to our cloud-hosted physics engine.
             </center>
         </div>
 
@@ -1562,46 +1618,61 @@ preprint arXiv:2407.16677, 2024.
         </div>
 
         <p>
-            <b>Cloud-hosted Physics Engine &nbsp;|&nbsp;</b> 
-
-            Anyone can spin up a cloud-hosted physics engine and start collecting data. Servers run in the following regions.
-            <span class="target-demographic">Target Demographic: <b>General Public</b></span>
+            Anyone can spin up a <b>cloud-hosted physics engine</b> and start collecting robot data from home. Servers run in the following regions. 
+            Join our waitlist to get access.
+            <!-- <span class="target-demographic">Target Demographic: <b>General Public</b></span> -->
 
             <figure>
                 <img src="static/images/aws-supported-regions.png" width="100%" alt="DART Fingertip Control">
             </figure>
         </p>
 
-        <p>
-            <b>Locally-hosted Physics Engine &nbsp;|&nbsp;</b> Those with the technical know-how can install and run the physics engine locally. <span class="target-demographic">Target Demographic: <b>Robotics Researchers / Engineers</b></span>
-
-            <div class="code-container">
-                <pre><code class="language-bash">pip install dart_physics --upgrade   
+        <div class="collapsible-section" onclick="toggleDeveloperSection()">
+            <p style="cursor: pointer; text-decoration: underline;">▶ Are you a developer?</p>
+        </div>
+        <div id="developer-section" style="display: none; margin-top: 1em;">
+            <p>
+                Those with the technical know-how can install and run the physics engine on your own machine in a local network.  
+                Make sure your machine is powerful enough to run the physics engine in real-time. 
+                <!-- <span class="target-demographic">Target Demographic: <b>Robotics Researchers / Engineers</b></span> -->
+                <div class="code-container">
+                    <pre><code class="language-bash">pip install dart_physics --upgrade   
 export DEXHUB_API_TOKEN=...
 python -m dart_physics.server</code> </pre>
-            </div>
-
-            <!-- To download the data later from the cloud, make sure you export the API token as an environment variable.  -->
-            You can generate and view API tokens through the <a href="https://dexhub.ai">DexHub</a> portal.
-
-        </p>
-
+                </div>
+                You can generate and view API tokens through the <a href="https://dexhub.ai">DexHub</a> portal. API tokens are required 
+                to log the teleoperated data to the cloud.
+            </p>
+        </div>
+        
       </div>
 
 
       <div class="content-section" id="real-world-datasets" data-toc-title="Real-world Demos are still useful">
-        <h2><b>Real-world datasets will still be useful</b></h2>
+        <h2><b>Real-world datasets</b> will still be useful</h2>
 
         <!-- We are not claiming that simulation-collected demos are the only useful source of robot data; 
         In fact, we believe that a few real-world demonstrations will be very useful to fine-tune the policy learned from simulation data, 
         especially for last-mile Sim2Real transfer process.  -->
 
-        We hypothesize that the scale and diversity of data required for a robot foundation model are most feasibly achieved through simulation. However, our work does not aim to replace real-world data collection entirely. Real-world data is paramount for fine-tuning policies learned from simulation data, aiding in last-mile Sim2Real transfer, and serving as a regularizer to prevent over-exploiting simulation and/or deviating too much from the real world.
-        
-        <div class="figure-container" >
-            <img src="static/images/dataset_fraction.png" width="70%" alt="data-fraction">
-        </div>
+        <p>
+            We hypothesize that the scale and diversity of data required for a robot foundation models
+            are most feasibly achieved through simulation. Operators don't have to come in physically into the lab to collect data; 
+            they can do it from anywhere in the world. <b>No more safety concerns for part-time data collectors, 
+            availability to work-from-home, no robot break downs, etc.</b>
+        </p>
 
+        <p>
+            However, our work does not aim to replace real-world data collection entirely. 
+            Real-world data is paramount for fine-tuning policies learned from simulation data, 
+            aiding in last-mile Sim2Real transfer, and serving as a regularizer to prevent over-exploiting simulation and/or deviating too much from the real world.
+            
+            <div class="figure-container" >
+                <img src="static/images/dataset_fraction.png" width="70%" alt="data-fraction">
+            </div>
+        </p>
+
+        We anticipate that, in the future, robot foundation models will be trained on a mix of approximately 50-70% simulation data and 30-50% real-world data.
 
         <!-- We still believe, however, that the scale and diversity of robot foundation model's behavior will mostly come from simulation demos, 
         where real-world datasets will mostly serve as a regularizer preventing the policy from over-exploiting the artifacts of simulation and/or deviating too much from the real-world counterparts.  -->
@@ -1613,8 +1684,8 @@ python -m dart_physics.server</code> </pre>
 
 
 
-      <div class="content-section" id="future-plans" data-toc-title="Call for Research">
-        <h2><b>Call for Research / Code-Works</b></h2>
+      <div class="content-section" id="call-for-research" data-toc-title="Call for Research">
+        <h2><b>Call for Research</b></h2>
 
         <p>
             DART and DexHub are still in the early stages of development, with room to grow. We've listed a few ideas we encourage the community to explore.
@@ -1622,45 +1693,106 @@ python -m dart_physics.server</code> </pre>
         </p>
 
         <h3><b>Generative Simulation Scene Modeling</b></h3>
-        <p>
+
+        <div class="figure-container">
+            <video class="cropped-video3" width="80%" playsinline  autoplay muted>
+                <!-- <source src="static/videos/twitter_main_fig.mp4" type="video/mp4"> -->
+                 <!-- make it auto-loop, with no video control exposed -->
+                <source src="static/videos/generative_simulation.mp4" type="video/mp4">
+            </video>
+            </div>
+
             Although teleoperating in simulation removes the need for physical environment setup, 
-            it still requires a human to manually design the scene in simulation. This involves either finding the right 3D asset in the internet, scanning real-world objects, or manually CAD-ing the objects from scratch. 
-            All these, although still easier than setting up a physical environment, are still time-consuming and requires a certain level of expertise.
+            it still requires a human to manually design the scene in simulation<div class="footnote-content">Park, Y., Margolis, G. B., & Agrawal, P. Position: Automatic Environment Shaping is the Next Frontier in RL. In Forty-first International Conference on Machine Learning.</div>
+            . The process involves the following process: 
+
+            <lo style="margin-top: 3em; margin-bottom: 3em;">
+                <li style="padding-left: 20px; margin-bottom: 0.3em;"> 
+                    <b>Preparing 3D Assets</b>: Finding the right 3D asset from public database (i.e., Objaverse<div class="footnote-content">Deitke, M., Schwenk, D., Salvador, J., Weihs, L., Michel, O., VanderBilt, E., ... & Farhadi, A. (2023). Objaverse: A universe of annotated 3d objects. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 13142-13153).
+                    </div>), scanning real-world objects, 
+                         or manually CAD-ing the objects from scratch. 
+                </li>
+                <li style="padding-left: 20px; margin-bottom: 0.3em;">
+                    <b>Placing Assets in the Scene</b>: Placing the objects in the scene in a semantically meaningful way that resembles the real-world setup, 
+                    while maintaining strict non-penetration constraint. 
+                </li>
+                <li style="padding-left: 20px; margin-bottom: 0.3em;">
+                    <b>Reset Strategy Design</b>: Designing a reset strategy that we can use to reset the scene after each task completion.
+                </li>
+            </lo>
+
+        <p>
+
+            All above, although still easier than setting up a physical environment, are still time-consuming and requires certain level of expertise.
             Thus, a method that can autonomously create <b>manipulatable</b> simulation scenes either from language descriptions or pictures/videos of real-world scenes can further
             bring down the cost of data collection and increase the diversity of the collected data. 
         </p>
+
         <p>
         Recent advances including GenSim<span class="footnote-content">Wang, L., Ling, Y., Yuan, Z., Shridhar, M., Bao, C., Qin, Y., ... & Wang, X. (2023). Gensim: Generating robotic simulation tasks via large language models. arXiv preprint arXiv:2310.01361.</span>,
         RoboGen<span class="footnote-content">Wang, Y., Xian, Z., Chen, F., Wang, T. H., Wang, Y., Fragkiadaki, K., ... & Gan, C. (2023). Robogen: Towards unleashing infinite data for automated robot learning via generative simulation. arXiv preprint arXiv:2311.01455.
         </span>, Gen2Sim<span class="footnote-content">Katara, Pushkal, Zhou Xian, and Katerina Fragkiadaki. "Gen2sim: Scaling up robot learning in simulation with generative models." 2024 IEEE International Conference on Robotics and Automation (ICRA). IEEE, 2024.
         </span>, RoboCasa<span class="footnote-content">Nasiriany, S., Maddukuri, A., Zhang, L., Parikh, A., Lo, A., Joshi, A., ... & Zhu, Y. (2024). RoboCasa: Large-Scale Simulation of Everyday Tasks for Generalist Robots. arXiv preprint arXiv:2406.02523.</span>, RialTo<span class="footnote-content">Torne, M., Simeonov, A., Li, Z., Chan, A., Chen, T., Gupta, A., & Agrawal, P. (2024). Reconciling reality through simulation: A real-to-sim-to-real approach for robust manipulation. arXiv preprint arXiv:2403.03949.
         </span> have shown promising results, 
-        but still has a long way to generate truly diverse and realistic scenes resembling that of the real world.
+        but we still have a long way to go to generate truly diverse and realistic scenes resembling that of real world.
         </p>
 
-        <h3><b>Integration with Whole-Body Keypoint Tracking Controllers</b></h3>
+        <h3><b>Keypoint Tracking Whole-Body Controllers</b></h3>
 
         <p>
-            DART supports controlling (a) fixed-based manipulators, (b) upper-limb of humanoid platforms, and (c) wheel-based mobile robots from keypoint tracking inputs using Differential IK formulation. 
-            The main missing piece, however, is the whole-body controller that can reliably track the keypoints in global frame. Integrating recent works like HOVER<span class="footnote-content">He, T., Xiao, W., Lin, T., Luo, Z., Xu, Z., Jiang, Z., ... & Zhu, Y. (2024). HOVER: Versatile Neural Whole-Body Controller for Humanoid Robots. arXiv preprint arXiv:2410.21229.</span>
-            that can support arbitrary combination of keypoints for whole-body control can be a promising direction to explore.
+            DART currently supports controlling (a) fixed-based manipulators in bimanual setup, (b) upper-limb of humanoid platforms, and (c) wheel-based mobile robots from keypoint tracking inputs using Differential IK formulation. 
+            The main missing piece, however, is an integration with a whole-body controller that can control a <b>full bipedal robot</b> tracking various set of human keypoints that are available from the device.
+            Below are the keypoints that Apple's ARKit provides for a human body. 
+        </p>
+
+        <div class="figure-container">
+            <img src="static/images/wholebody_future.png" width="80%" alt="">
+        </div>
+
+        
+        <p>
+            Integrating recent works like HOVER<span class="footnote-content">He, T., Xiao, W., Lin, T., Luo, Z., Xu, Z., Jiang, Z., ... & Zhu, Y. (2024). HOVER: Versatile Neural Whole-Body Controller for Humanoid Robots. arXiv preprint arXiv:2410.21229.</span>
+            that can support arbitrary combination of keypoints for whole-body control can be a good starting point.
         </p>
         
-        <h3><b>Training Robot Policies from Multiple Sources</b></h3>
+        <h3><b>MuJoCo on VisionOS</b> and/or <b>Better Apple RealityKit Physics</b></h3>
+
+        <fig class="figure-container">
+            <center>
+            <img src="static/images/mujoco_visionos.png" width="70%" alt="">
+        </center>
+        </fig>
 
         <p> 
-            Since simulation demos are not the only source of datasets to train robots, 
-            a more principled method that can combine data from multiple sources, potentially with different data modalities, 
-            can be a promising direction to explore.
+            Although DART's compact-sized message passing allows low-latency communication between the AR device and cloud-hosted physics engine (MuJoCo), 
+            it will still be more efficient to run the physics engine on-device. Supporting MuJoCo on VisionOS can be a promising direction to explore, 
+            which seems to be possible to run with <a href="https://github.com/liuliu/swift-mujoco">Swift</a>. 
         </p>
+
+        <p>
+            One alternative path is to improve the fidelity of internal physics engine that Apple RealityKit supports. Apple's RealityKit supports basic 
+            <a href="https://developer.apple.com/documentation/realitykit/physics-collision-detection">collision detection</a> between AR objects for simple physics interactions.
+            However, based on our experience, the physics engine is not yet mature enough to support complex robot manipulation tasks; <b>it's simply not designed for roboticists</b>. 
+            Features that should be improved include: 
+            <lo>
+                <li> Robot description support </li>
+                <li> Joint kinematics/dynamics support </li>
+                <li> Deformable material support </li>
+                <li> SDF-based collision detection support for tight tolerance tasks </li> 
+                <li> Reliable contact resolution </li>
+            </lo>
+        </p>
+
+
+
 
         <h3><b>Data Curation for Robot Learning</b></h3>
 
         <p> 
             Since the data collected through a crowd-sourced platform will be highly diverse and noisy, 
             a principled way to curate the data to ensure the quality of the data is crucial.
-            It is very much well known that OpenAI had to spend a significant amount of time and effort to curate the data for their vision-language model,
-            and we believe that a similar effort will be required for robot data collection as well, as we enter the regime of larger-sccale, crowd-sourced robot data collection.
+            It is well known that LLM communities have spent significant amount of time and effort to curate the data for training,
+            and we believe that a similar effort will be required for robot data collection as well as we enter the regime of larger-scale, crowd-sourced robot data collection.
         </p>
 
 
