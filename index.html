@@ -1395,7 +1395,7 @@
 
     
     <div class="content-section" data-toc-title="DART's Features and UI" id="dart-features">
-        <h2>DART's features</h2>
+        <h2><b>DART's</b> features</h2>
 
         <div class="feature-controls">
             <button class="feature-button active" onclick="showFeature('env-reset')">One-click Reset</button>
@@ -1409,7 +1409,7 @@
         <div id="task-switching-container" style="display: none;">
             <p>
                 <b>Anti-boredom Teleoperation &nbsp;|&nbsp;</b> Humans are known to lose focus when performing highly repetitive jobs<span class="footnote-content">Häusser, J. A., Schulz‐Hardt, S., Schultze, T., Tomaschek, A., & Mojzisch, A. (2014). Experimental evidence for the effects of task repetitiveness on mental strain and objective work performance. Journal of Organizational Behavior, 35(5), 705-721. <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/job.1920">[link]</a></span>.
-                To alleviate boredom, DART can be configured to cycle through a wide range of tasks – a strategy that is not sensible for real-world data collection.
+                To alleviate boredom, DART can be configured to cycle through a wide range of tasks – a strategy not sensible for real-world data collection.
             </p>
         </div>
         <div id="viewpoint-switching-container" style="display: none;">
@@ -1451,7 +1451,7 @@
 
 
     <div class="content-section" data-toc-title="DART's design choices" id="dart-design">
-      <h2>Design choices we made</h2>
+      <h2><b>DART's</b> design choices</h2>
 
       <p>
         <b>Visual Rendering happens locally on the AR device &nbsp;|&nbsp;</b> Compared to existing VR-based teleoperation approaches which send over the entire camera feeds or rendered images over the network
@@ -1473,9 +1473,7 @@
 
         <p>
             <b>Fingertip-based Robot Controls &nbsp;|&nbsp;</b> 
-            For a more intuitive user experience, instead of relying on external hand tracking or control devices, 
-            we use our hands as the primary input device for robot control. For parallel jaw grippers, 
-            users can control the gripper's opening and closing by pinching and releasing their fingers, while the end-effector SE(3) pose is specified by 4 keypoints on human hands. 
+            For an intuitive user experience, DexHub uses built-in hand-tracking rather than relying on external control devices. Parallel jaw grippers are controlled by pinching and releasing fingers. SE(3) pose is specified by tracking four hand keypoints, as seen below. 
             <div class="figure-container" >
                 <img src="static/images/fingertips.png" width="60%" alt="DART Fingertip Control">
             </div>
@@ -1490,18 +1488,16 @@
 
 
     <div class="content-section" data-toc-title="Power of Simulation Demos" id="power-of-simulation">
-        <h2><b>Demonstrations in Simulation</b> offers a lot of benefits. </h2>
+        <h2><b>Demonstrations in Simulation</b> offers a lot of benefits </h2>
         If you are a robotics researcher who already has access to a physical robot, you might be wondering, 
 
         <div class="callout">
-            Why should I care about collecting data in simulation when I can collect data in the real world?
+            Why should I care about collecting data in simulation?
         </div>
         We argue that collecting data in simulation offers several benefits over real-world data collection. 
 
         <p>
-            <b>1. Data Augmentation &nbsp;|&nbsp;</b> In simulation, there are multiple privileged information that you can easily access, 
-            such as the ground truth state of the robot, the ground truth state of the environment, and the ground truth state of the objects.
-            This allows a randomziation and augmentation strategy that is not possible in the real-world. 
+            <b>1. Data Augmentation &nbsp;|&nbsp;</b> Simulation allows access to privileged information, such as the robot's, environment's, and objects’ ground-truth state. The ease of randomization and augmentation in simulation enables policy robustness difficult to achieve via real-world data collection. Please see our paper for experiments.
 
             
 
@@ -1512,10 +1508,9 @@
 
         <p>
             <b>2. RL Finetuning &nbsp;|&nbsp;</b> One of the powerful benefit of simulation is the possibility of using RL to finetune the policy. 
-            Simulation allows for the refinement and
-            augmentation of human-collected (therefore possibly
+            Simulation allows for the refinement of human-collected (therefore possibly
             suboptimal) datasets through online reinforcement learning
-            using massively parallelizable simulation environment.
+            using massively parallelizable simulation environments.
             Such refinement can address the potential performance saturation often observed on policies trained only with supervised
             learning<span class="footnote-content">S. Ross and D. Bagnell, “Efficient reductions for imitation learning,”
                 in Proceedings of the Thirteenth International Conference on Artificial
@@ -1555,7 +1550,7 @@ preprint arXiv:2407.16677, 2024.
 
         <div class="callout2">
             <center>
-                Good news, you can experience DART yourself! <br>If you have an Apple Vision Pro, sign up <a href="https://dexhub.ai/">here</a> for access. 
+                Try DART on Apple Vision Pro! <br>Sign up <a href="https://dexhub.ai/">here</a> for access. 
             </center>
         </div>
 
@@ -1569,8 +1564,8 @@ preprint arXiv:2407.16677, 2024.
         <p>
             <b>Cloud-hosted Physics Engine &nbsp;|&nbsp;</b> 
 
-            We support cloud-hosted physics engine on the following regions. Anyone can spin up a cloud-hosted physics engine 
-            in their nearest server through our portal and start collecting data.         <span class="target-demographic">Target Demographic: <b>General Public</b></span>
+            Anyone can spin up a cloud-hosted physics engine and start collecting data. Servers run in the following regions.
+            <span class="target-demographic">Target Demographic: <b>General Public</b></span>
 
             <figure>
                 <img src="static/images/aws-supported-regions.png" width="100%" alt="DART Fingertip Control">
@@ -1578,8 +1573,7 @@ preprint arXiv:2407.16677, 2024.
         </p>
 
         <p>
-            <b>Locally-hosted Physics Engine &nbsp;|&nbsp;</b> If you have the skill and compute resource to run the physics engine locally, 
-            you can install and run the engine yourself. <span class="target-demographic">Target Demographic: <b>Robotics Researchers / Engineers</b></span>
+            <b>Locally-hosted Physics Engine &nbsp;|&nbsp;</b> Those with the technical know-how can install and run the physics engine locally. <span class="target-demographic">Target Demographic: <b>Robotics Researchers / Engineers</b></span>
 
             <div class="code-container">
                 <pre><code class="language-bash">pip install dart_physics --upgrade   
@@ -1587,7 +1581,8 @@ export DEXHUB_API_TOKEN=...
 python -m dart_physics.server</code> </pre>
             </div>
 
-            To download the data later from the cloud, make sure you export the API token as an environment variable. You can generate and find the API token in our <a href="https://dexhub.ai">DexHub</a> portal.
+            <!-- To download the data later from the cloud, make sure you export the API token as an environment variable.  -->
+            You can generate and view API tokens through the <a href="https://dexhub.ai">DexHub</a> portal.
 
         </p>
 
