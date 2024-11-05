@@ -582,6 +582,16 @@
             margin-bottom: 0em;
         }
 
+        span a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Add underline on hover */
+        span a:hover {
+            text-decoration: underline;
+        }
+
 
     </style>
 
@@ -946,24 +956,31 @@
             });
 
             // Add click handler to copy the URL
+            // copyLinkBtn.addEventListener('click', (e) => {
+            //     e.preventDefault();
+            //     const url = `${window.location.origin}${window.location.pathname}#${section.id}`;
+                
+            //     // Copy to clipboard
+            //     navigator.clipboard.writeText(url)
+            //         .then(() => {
+            //             // Show success message
+            //             const originalTitle = copyLinkBtn.getAttribute('title');
+            //             copyLinkBtn.setAttribute('title', 'Link copied!');
+            //             setTimeout(() => {
+            //                 copyLinkBtn.setAttribute('title', originalTitle);
+            //             }, 2000);
+            //         })
+            //         .catch(err => {
+            //             console.error('Failed to copy:', err);
+            //         });
+            // });
+
             copyLinkBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                const url = `${window.location.origin}${window.location.pathname}#${section.id}`;
-                
-                // Copy to clipboard
-                navigator.clipboard.writeText(url)
-                    .then(() => {
-                        // Show success message
-                        const originalTitle = copyLinkBtn.getAttribute('title');
-                        copyLinkBtn.setAttribute('title', 'Link copied!');
-                        setTimeout(() => {
-                            copyLinkBtn.setAttribute('title', originalTitle);
-                        }, 2000);
-                    })
-                    .catch(err => {
-                        console.error('Failed to copy:', err);
-                    });
+                const sectionId = section.id;
+                window.parent.postMessage({ type: "COPY_LINK", sectionId }, "*");
             });
+
 
             // Add the button next to the header
             header.appendChild(copyLinkBtn);
@@ -1080,15 +1097,15 @@
 
     <h1>DexHub and DART: Towards <br>Internet-Scale Robot Data Collection</h1>
     <p class="authors">
-        <span>Younghyo Park</span>
-        <span>Jagdeep Bhatia</span>
-        <span>Lars Ankile</span>
-        <span>Pulkit Agrawal</span>
+        <span><a href="https://younghyopark.me">Younghyo Park</a></span>
+        <span><a href="https://jagdeepsb.github.io/">Jagdeep Bhatia</a></span>
+        <span><a href="https://ankile.com/">Lars Ankile</a></span>
+        <span><a href="https://people.csail.mit.edu/pulkitag/">Pulkit Agrawa</a>l</span>
     </p>
     <!-- put MIT logo with fixed width  -->
     <div class="logo-container">
-        <img src="static/images/mit_logo_std_rgb_mit-red.png" alt="MIT Logo" class="logo mit-logo">
-        <img src="static/images/lab_logo.png" alt="Lab Logo" class="logo lab-logo">
+        <a href="https://www.csail.mit.edu/"><img src="static/images/mit_logo_std_rgb_mit-red.png" alt="MIT Logo" class="logo mit-logo"></a>
+        <a href="https://people.csail.mit.edu/pulkitag/"><img src="static/images/lab_logo.png" alt="Lab Logo" class="logo lab-logo"></a>
     </div>
     
     <p class="paper-info">ICRA 2025 (Under Review)</p>
@@ -1098,7 +1115,7 @@
             Visit <strong>CoRL 2024 <a href="https://sites.google.com/view/xembodimentworkshop">XE</a>/<a href="https://wcbm-workshop.github.io/">WBCM</a> Workshop</strong> <br>for an in-person demo on Nov 9th, Munich
         </div>
         <div class="links">
-            <a href="https://arxiv.org/abs/2407.16186" target="_blank">
+            <a href="https://arxiv.org/abs/2411.02214" target="_blank">
                 <img src="static/images/papericon.png" alt="Paper icon"> Full Paper
             </a>
             <a href="https://dexhub.ai/" target="_blank">
@@ -1618,8 +1635,8 @@ preprint arXiv:2407.16677, 2024.
         </div>
 
         <p>
-            Anyone can spin up a <b>cloud-hosted physics engine</b> and start collecting robot data from home. Servers run in the following regions. 
-            Join our waitlist to get access.
+            Anyone can spin up a <b>cloud-hosted physics engine</b> and start collecting robot data from home. 
+            Servers can run in the following regions with a click of a button in our portal. Join our waitlist <a href="https://dexhub.ai">here</a> to get access.
             <!-- <span class="target-demographic">Target Demographic: <b>General Public</b></span> -->
 
             <figure>
@@ -1632,7 +1649,7 @@ preprint arXiv:2407.16677, 2024.
         </div>
         <div id="developer-section" style="display: none; margin-top: 1em;">
             <p>
-                Those with the technical know-how can install and run the physics engine on your own machine in a local network.  
+                Those with the technical know-how can install and run the physics engine on their own machine in a local network.  
                 Make sure your machine is powerful enough to run the physics engine in real-time. 
                 <!-- <span class="target-demographic">Target Demographic: <b>Robotics Researchers / Engineers</b></span> -->
                 <div class="code-container">
@@ -1648,31 +1665,36 @@ python -m dart_physics.server</code> </pre>
       </div>
 
 
-      <div class="content-section" id="real-world-datasets" data-toc-title="Real-world Demos are still useful">
-        <h2><b>Real-world datasets</b> will still be useful</h2>
+      <div class="content-section" id="real-world-datasets" data-toc-title="Role of Real-world Data">
+        <h2>Role of <b>Real-world Datasets</b></h2>
 
         <!-- We are not claiming that simulation-collected demos are the only useful source of robot data; 
         In fact, we believe that a few real-world demonstrations will be very useful to fine-tune the policy learned from simulation data, 
         especially for last-mile Sim2Real transfer process.  -->
 
         <p>
-            We hypothesize that the scale and diversity of data required for a robot foundation models
-            are most feasibly achieved through simulation. Operators don't have to come in physically into the lab to collect data; 
-            they can do it from anywhere in the world. <b>No more safety concerns for part-time data collectors, 
-            availability to work-from-home, no robot break downs, etc.</b>
+            One thing to clarify: we still believe in the power of <b>real-world data.</b> 
+            Real-world data is paramount for aiding in last-mile Sim2Real transfer, 
+            serving as a regularizer to prevent the policy from over-exploiting simulation artifacts and/or deviating too much from the real world.
         </p>
 
         <p>
-            However, our work does not aim to replace real-world data collection entirely. 
-            Real-world data is paramount for fine-tuning policies learned from simulation data, 
-            aiding in last-mile Sim2Real transfer, and serving as a regularizer to prevent over-exploiting simulation and/or deviating too much from the real world.
-            
+            Our hypothesis, however, is that the scale and diversity of data required for robot foundation models
+            will be most feasibly achieved through simulation, not in real-world. The logic is simple; we don't have enough robots around the world 
+            to collect the amount of data required to train a minimal-viable-product form of robot foundation model.
+            We anticipate that robot foundation models will be trained on a mix of large-scale simulation data and small fraction of real-world data.
+
             <div class="figure-container" >
                 <img src="static/images/dataset_fraction.png" width="70%" alt="data-fraction">
             </div>
         </p>
 
-        We anticipate that, in the future, robot foundation models will be trained on a mix of approximately 50-70% simulation data and 30-50% real-world data.
+        I should also note amazing works from other colleagues in the field are coming up with creative ideas 
+        to collect alternative types of datasets, although not necessarily robot-embodied, that can be useful for training collected in real-world. 
+        
+        <b>Passive Demos&nbsp; | &nbsp;</b>
+
+        <b>Human Motions&nbsp; | &nbsp;</b>
 
         <!-- We still believe, however, that the scale and diversity of robot foundation model's behavior will mostly come from simulation demos, 
         where real-world datasets will mostly serve as a regularizer preventing the policy from over-exploiting the artifacts of simulation and/or deviating too much from the real-world counterparts.  -->
@@ -1741,8 +1763,8 @@ python -m dart_physics.server</code> </pre>
 
         <p>
             DART currently supports controlling (a) fixed-based manipulators in bimanual setup, (b) upper-limb of humanoid platforms, and (c) wheel-based mobile robots from keypoint tracking inputs using Differential IK formulation. 
-            The main missing piece, however, is an integration with a whole-body controller that can control a <b>full bipedal robot</b> tracking various set of human keypoints that are available from the device.
-            Below are the keypoints that Apple's ARKit provides for a human body. 
+            The main missing piece, however, is an integration with a whole-body controller that can control a <b>full bipedal robot</b> tracking various set of human keypoints that are available from the AR device.
+            Below are the keypoints that Apple's ARKit, for instance, provides for a human body. 
         </p>
 
         <div class="figure-container">
@@ -1752,7 +1774,7 @@ python -m dart_physics.server</code> </pre>
         
         <p>
             Integrating recent works like HOVER<span class="footnote-content">He, T., Xiao, W., Lin, T., Luo, Z., Xu, Z., Jiang, Z., ... & Zhu, Y. (2024). HOVER: Versatile Neural Whole-Body Controller for Humanoid Robots. arXiv preprint arXiv:2410.21229.</span>
-            that can support arbitrary combination of keypoints for whole-body control can be a good starting point.
+            that can support arbitrary combination of keypoints for whole-body control can be a good starting point to explore. 
         </p>
         
         <h3><b>MuJoCo on VisionOS</b> and/or <b>Better Apple RealityKit Physics</b></h3>
@@ -1765,14 +1787,14 @@ python -m dart_physics.server</code> </pre>
 
         <p> 
             Although DART's compact-sized message passing allows low-latency communication between the AR device and cloud-hosted physics engine (MuJoCo), 
-            it will still be more efficient to run the physics engine on-device. Supporting MuJoCo on VisionOS can be a promising direction to explore, 
-            which seems to be possible to run with <a href="https://github.com/liuliu/swift-mujoco">Swift</a>. 
+            it's still more desirable to run the physics engine on-device. Supporting the latest version of MuJoCo on VisionOS can be a promising direction to explore.
+            Fortunatley, there are already some efforts in this direction: <a href="https://github.com/liuliu/swift-mujoco">MuJoCo on Swift</a>. 
         </p>
 
         <p>
-            One alternative path is to improve the fidelity of internal physics engine that Apple RealityKit supports. Apple's RealityKit supports basic 
+            One alternative path is to improve the fidelity of internal physics engine that AR device natively supports. Apple's RealityKit, for instance, supports basic 
             <a href="https://developer.apple.com/documentation/realitykit/physics-collision-detection">collision detection</a> between AR objects for simple physics interactions.
-            However, based on our experience, the physics engine is not yet mature enough to support complex robot manipulation tasks; <b>it's simply not designed for roboticists</b>. 
+            However, based on our experience, the physics engine is not yet mature enough to support complex robot manipulation tasks; <b>it's simply not designed for serious roboticists</b>. 
             Features that should be improved include: 
             <lo>
                 <li> Robot description support </li>
